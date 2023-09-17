@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(MeshFilter))]
@@ -31,7 +32,7 @@ public class PlayerCreateShadowMulti : MonoBehaviour
     {
         private GameObject m_gameObj;
         private Mesh m_mesh;
-        private List<Vector3> m_gameObjPoint;
+        private HashSet<Vector3> m_gameObjPoint;
         private HashSet<Vector3> m_vertex;
         private List<float> m_vertexX;
         private Vector3 m_centerPos;
@@ -39,7 +40,7 @@ public class PlayerCreateShadowMulti : MonoBehaviour
         private List<int> m_inFlameIndex;
         private int m_vertexNum;
 
-        public LightingGameObject(GameObject gameObj, List<Vector3> gameObjPoint)
+        public LightingGameObject(GameObject gameObj, HashSet<Vector3> gameObjPoint)
         {
             m_gameObj = gameObj;
             m_mesh = m_gameObj.GetComponent<MeshFilter>().mesh;
@@ -64,7 +65,7 @@ public class PlayerCreateShadowMulti : MonoBehaviour
             return m_mesh;
         }
 
-        public List<Vector3> GetGameObjPoint()
+        public HashSet<Vector3> GetGameObjPoint()
         {
             return m_gameObjPoint;
         }
@@ -137,39 +138,50 @@ public class PlayerCreateShadowMulti : MonoBehaviour
         GameObject[] gameObjAll = GameObject.FindGameObjectsWithTag("LightingObject");
 
         // いらない点を削除
-        foreach(GameObject temp in gameObjAll)
+        foreach (GameObject temp in gameObjAll)
         {
-            List<Vector3> tempGameObjPoint = DeletePoint(temp.gameObject.GetComponent<MeshFilter>().mesh, temp);
-            lightingGameObj.Add(new LightingGameObject(temp, tempGameObjPoint));            
+            HashSet<Vector3> tempGameObjPoint = DeletePoint(temp.gameObject.GetComponent<MeshFilter>().mesh, temp);
+            lightingGameObj.Add(new LightingGameObject(temp, tempGameObjPoint));
         }
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        // Eキーを押したら影の形からオブジェクトを生成
-        //if (!Input.GetKeyDown(KeyCode.E)) return;
+        // 影生成するか否か
+        if (Gamepad.current == null)
+        {
+            // Eキーを押したら影の形からオブジェクトを生成
+            if (!Input.GetKeyDown(KeyCode.E)) return;
+        }
+        else
+        {
+            // Eキーかパッドの右ボタンを押したら影の形からオブジェクトを生成
+            if (!Gamepad.current.buttonEast.isPressed &&
+                !Input.GetKeyDown(KeyCode.E)) return;
+        }
 
         List<int> index = new List<int>();      // 枠内のゲームオブジェクトのインデックス番号
 
         // レイを生成し枠内の影のみ入れる
-        for(int i = 0; i < lightingGameObj.Count; i++)
+        for (int i = 0; i < lightingGameObj.Count; i++)
         {
-            List<Vector3> tempGameObjPoint = lightingGameObj[i].GetGameObjPoint();
+            HashSet<Vector3> tempGameObjPoint = lightingGameObj[i].GetGameObjPoint();
             bool InFlame = false;
             HashSet<Vector3> tempVertex = new HashSet<Vector3>();
             List<float> tempVertexX = new List<float>();
 
             Vector3 dir = lightingGameObj[i].GetGameObject().gameObject.transform.position - gameObject.transform.position;
 
-            for (int j = 0; j < tempGameObjPoint.Count; j++)
+            foreach (Vector3 tempPoint in tempGameObjPoint)
             {
                 // レイの生成
-                dir += tempGameObjPoint[j];
+                dir += tempPoint;
                 Ray ray = new Ray(gameObject.transform.position, dir);
                 Debug.DrawRay(ray.origin, ray.direction * 30, Color.red, 0.1f); // 長さ３０、赤色で５秒間可視化
 
                 RaycastHit[] hits = Physics.RaycastAll(ray);
+
                 foreach (RaycastHit hit in hits)
                 {
                     // 衝突先が壁タグでなければ処理しない
@@ -190,7 +202,7 @@ public class PlayerCreateShadowMulti : MonoBehaviour
                     tempVertexX.Add(hit.point.x);
                 }
 
-                dir -= tempGameObjPoint[j];
+                dir -= tempPoint;
             }
 
             // 一度でも枠内に点が入っていたら
@@ -202,11 +214,8 @@ public class PlayerCreateShadowMulti : MonoBehaviour
             }
         }
 
-        // Eキーを押したら影の形からオブジェクトを生成
-        if (!Input.GetKeyDown(KeyCode.E)) return;
-
         // 影の中央座標を取得
-        foreach(int tempIndex in index)
+        foreach (int tempIndex in index)
         {
             Vector3 tempCenterPos = GetShadowCenterPosition(lightingGameObj[tempIndex].GetGameObject());
             lightingGameObj[tempIndex].SetCenterPos(tempCenterPos);
@@ -226,10 +235,10 @@ public class PlayerCreateShadowMulti : MonoBehaviour
         // 枠内にあるかどうかを判断し、新しい変数を保存
         List<Vector3> tempPointInFlameAll = new List<Vector3>();
 
-        foreach(int tempIndex in index)
+        foreach (int tempIndex in index)
         {
             Vector3 tempCenterPoint = lightingGameObj[tempIndex].GetCenterPos();
-            Vector3[] pointInFlame = CreateInFlameShadow(lightingGameObj[tempIndex].GetInFlameIndex(), 
+            Vector3[] pointInFlame = CreateInFlameShadow(lightingGameObj[tempIndex].GetInFlameIndex(),
                 lightingGameObj[tempIndex].GetPoint(), ref tempCenterPoint);
             foreach (Vector3 vec in pointInFlame)
             {
@@ -249,7 +258,7 @@ public class PlayerCreateShadowMulti : MonoBehaviour
 
         int firstIndex = 0;
 
-        foreach(int tempIndex in index)
+        foreach (int tempIndex in index)
         {
             int tempVertexNum = lightingGameObj[tempIndex].GetVertexNum();
             int[] triangles = GetTriangles(tempVertexNum);
@@ -286,17 +295,17 @@ public class PlayerCreateShadowMulti : MonoBehaviour
         newObject.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 
         // 今回使ったデータのリセット
-        foreach(int tempIndex in index)
+        foreach (int tempIndex in index)
         {
             lightingGameObj[tempIndex].Reset();
         }
     }
 
     // いらない点を削除
-    private List<Vector3> DeletePoint(Mesh objMesh, GameObject gameObj)
+    private HashSet<Vector3> DeletePoint(Mesh objMesh, GameObject gameObj)
     {
         Vector3[] vertices = objMesh.vertices;
-        List<Vector3> vertices3 = new List<Vector3>();
+        HashSet<Vector3> vertices3 = new HashSet<Vector3>();
         Vector3[] vertices2 = objMesh.vertices;        // キューブの場所と各頂点の座標を加算したもの
         List<float> point_y = new List<float>();    // Y座標を取得
 
@@ -311,6 +320,7 @@ public class PlayerCreateShadowMulti : MonoBehaviour
                 point_y.Add(vertices2[i].y);
             }
         }
+
 
         //===========================================
         // いらない座標を削除(裏面等)
@@ -473,13 +483,14 @@ public class PlayerCreateShadowMulti : MonoBehaviour
     {
         // プレイヤーの枠内に入ってるかどうか
         List<int> inFlameIndex = new List<int>();   // 枠内に入ってる点のインデックス番号記録
+
         for (int i = 1; i < point.Length; i++)
         {
             // 初期状態であって、枠のゲームオブジェクトがなければ処理しない
             if (point[i] == Vector3.zero ||
                 playerFlameLeft == null || playerFlameRight == null) continue;
 
-            // 枠内にあるか
+            // 枠内になければ処理しない
             float flameUp = playerFlameLeft.transform.position.y + playerFlameLeft.transform.localScale.y / 2;
             float flameDown = playerFlameLeft.transform.position.y - playerFlameLeft.transform.localScale.y / 2;
             if (playerFlameLeft.transform.position.x > point[i].x ||
@@ -494,7 +505,7 @@ public class PlayerCreateShadowMulti : MonoBehaviour
     }
 
     // 枠内にある影の座標を取得
-    private Vector3[] CreateInFlameShadow(List<int>inFlameIndex, Vector3[] point, ref Vector3 centerPos)
+    private Vector3[] CreateInFlameShadow(List<int> inFlameIndex, Vector3[] point, ref Vector3 centerPos)
     {
         int pointNum = 0;           // 新しい点を保存する変数の数
         bool inFlameAll = false;    // 枠内に全てあるかどうか
@@ -518,6 +529,7 @@ public class PlayerCreateShadowMulti : MonoBehaviour
         {
             for (int i = 1; i < point.Length; i++)
             {
+                // 枠外にある物は処理しない
                 if (inFlameIndex.IndexOf(i) == -1) continue;
 
                 // 時計回りをして前の点が枠外で次の点が枠内のもの
@@ -541,6 +553,7 @@ public class PlayerCreateShadowMulti : MonoBehaviour
 
             for (int i = 1; i < point.Length; i++)
             {
+                // 枠外にある物は処理しない
                 if (inFlameIndex.IndexOf(i) == -1) continue;
 
                 // 時計回りをして前の点が枠内で次の点が枠外のもの
@@ -567,18 +580,18 @@ public class PlayerCreateShadowMulti : MonoBehaviour
             // 時計回りをして前の点が枠外で次の点が枠内のもの
             Vector3 dir = point[upPointBeforeIndex] - point[upPointIndex];
             Ray ray = new Ray(point[upPointIndex], dir);
-            Debug.DrawRay(ray.origin, ray.direction * 30, Color.red, 0.1f); // 長さ３０、赤色で５秒間可視化
+            Debug.DrawRay(ray.origin, ray.direction * 30, Color.red, 10.0f); // 長さ３０、赤色で５秒間可視化
             RaycastHit[] hits = Physics.RaycastAll(ray);
             foreach (RaycastHit hit in hits)
             {
                 // 衝突した枠の種類を保存
-                if (hit.transform == playerFlameLeft)
+                if (hit.transform.gameObject == playerFlameLeft)
                     upPointCollitedPlayerFlame = CollitedPlayerFlame.Left;
-                else if (hit.transform == playerFlameRight)
+                else if (hit.transform.gameObject == playerFlameRight)
                     upPointCollitedPlayerFlame = CollitedPlayerFlame.Right;
-                else if (hit.transform == playerFlameUp)
+                else if (hit.transform.gameObject == playerFlameUp)
                     upPointCollitedPlayerFlame = CollitedPlayerFlame.Up;
-                else if (hit.transform == playerFlameDown)
+                else if (hit.transform.gameObject == playerFlameDown)
                     upPointCollitedPlayerFlame = CollitedPlayerFlame.Down;
                 else
                     continue;    // 衝突先がプレイヤーの枠タグでなければ処理しない
@@ -596,13 +609,13 @@ public class PlayerCreateShadowMulti : MonoBehaviour
             foreach (RaycastHit hit in hits)
             {
                 // 衝突した枠の種類を保存
-                if (hit.transform == playerFlameLeft)
+                if (hit.transform.gameObject == playerFlameLeft)
                     downPointCollitedPlayerFlame = CollitedPlayerFlame.Left;
-                else if (hit.transform == playerFlameRight)
+                else if (hit.transform.gameObject == playerFlameRight)
                     downPointCollitedPlayerFlame = CollitedPlayerFlame.Right;
-                else if (hit.transform == playerFlameUp)
+                else if (hit.transform.gameObject == playerFlameUp)
                     downPointCollitedPlayerFlame = CollitedPlayerFlame.Up;
-                else if (hit.transform == playerFlameDown)
+                else if (hit.transform.gameObject == playerFlameDown)
                     downPointCollitedPlayerFlame = CollitedPlayerFlame.Down;
                 else
                     continue;    // 衝突先がプレイヤーの枠タグでなければ処理しない
