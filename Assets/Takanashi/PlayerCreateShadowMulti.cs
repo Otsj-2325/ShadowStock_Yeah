@@ -148,18 +148,18 @@ public class PlayerCreateShadowMulti : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        // 影生成するか否か
-        if (Gamepad.current == null)
-        {
-            // Eキーを押したら影の形からオブジェクトを生成
-            if (!Input.GetKeyDown(KeyCode.E)) return;
-        }
-        else
-        {
-            // Eキーかパッドの右ボタンを押したら影の形からオブジェクトを生成
-            if (!Gamepad.current.buttonEast.isPressed &&
-                !Input.GetKeyDown(KeyCode.E)) return;
-        }
+        //// 影生成するか否か
+        //if (Gamepad.current == null)
+        //{
+        //    // Eキーを押したら影の形からオブジェクトを生成
+        //    if (!Input.GetKeyDown(KeyCode.E)) return;
+        //}
+        //else
+        //{
+        //    // Eキーかパッドの右ボタンを押したら影の形からオブジェクトを生成
+        //    if (!Gamepad.current.rightTrigger.isPressed &&
+        //        !Input.GetKeyDown(KeyCode.E)) return;
+        //}
 
         List<int> index = new List<int>();      // 枠内のゲームオブジェクトのインデックス番号
 
@@ -212,6 +212,19 @@ public class PlayerCreateShadowMulti : MonoBehaviour
                 lightingGameObj[i].SetVertexX(tempVertexX);
                 index.Add(i);
             }
+        }
+
+        // 影生成するか否か
+        if (Gamepad.current == null)
+        {
+            // Eキーを押したら影の形からオブジェクトを生成
+            if (!Input.GetKeyDown(KeyCode.E)) return;
+        }
+        else
+        {
+            // Eキーかパッドの右ボタンを押したら影の形からオブジェクトを生成
+            if (!Gamepad.current.rightTrigger.isPressed &&
+                !Input.GetKeyDown(KeyCode.E)) return;
         }
 
         // 影の中央座標を取得
@@ -312,6 +325,10 @@ public class PlayerCreateShadowMulti : MonoBehaviour
         //頂点のY座標を取得
         for (int i = 0; i < vertices.Length; i++)
         {
+            vertices[i].x *= gameObj.transform.localScale.x;
+            vertices[i].y *= gameObj.transform.localScale.y;
+            vertices[i].z *= gameObj.transform.localScale.z;
+
             vertices3.Add(vertices[i]);
 
             vertices2[i] = gameObj.gameObject.transform.position + vertices[i];
@@ -580,7 +597,7 @@ public class PlayerCreateShadowMulti : MonoBehaviour
             // 時計回りをして前の点が枠外で次の点が枠内のもの
             Vector3 dir = point[upPointBeforeIndex] - point[upPointIndex];
             Ray ray = new Ray(point[upPointIndex], dir);
-            Debug.DrawRay(ray.origin, ray.direction * 30, Color.red, 10.0f); // 長さ３０、赤色で５秒間可視化
+            Debug.DrawRay(ray.origin, ray.direction * 30, Color.red, 0.1f); // 長さ３０、赤色で５秒間可視化
             RaycastHit[] hits = Physics.RaycastAll(ray);
             foreach (RaycastHit hit in hits)
             {
