@@ -26,7 +26,7 @@ public class PlayerFrameMove : MonoBehaviour
             float tempZ = temp.gameObject.transform.position.z;
 
             // •Ç‚ÌzÀ•W‚ÆŽ©•ª‚ÌzÀ•W‚ª—£‚ê‚Ä‚¢‚ê‚Îˆ—‚µ‚È‚¢
-            if (posZ - 1.0f > tempZ || posZ + 1.0f < tempZ) return;
+            if (posZ - 1.0f > tempZ || posZ + 1.0f < tempZ) continue;
 
             Vector3 tempScale = temp.transform.localScale / 2;
 
