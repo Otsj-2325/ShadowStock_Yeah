@@ -38,7 +38,7 @@ public class WarpWithFrame : MonoBehaviour
         {
             scr_VM.SwitchVCam(m_VCamNum);
             m_Player.transform.position = m_WarpPos.transform.position;
-            m_DetnWarp.GetComponent<SCR_Warp>().Arrival();
+            m_DetnWarp.GetComponent<WarpWithFrame>().Arrival();
 
             getPosition?.Invoke(m_DetnWarp.transform.position);
         }

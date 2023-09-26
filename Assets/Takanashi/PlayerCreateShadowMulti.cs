@@ -218,13 +218,13 @@ public class PlayerCreateShadowMulti : MonoBehaviour
         if (Gamepad.current == null)
         {
             // Eキーを押したら影の形からオブジェクトを生成
-            if (!Input.GetKeyDown(KeyCode.E)) return;
+            if (!Input.GetKeyDown(KeyCode.R)) return;
         }
         else
         {
             // Eキーかパッドの右ボタンを押したら影の形からオブジェクトを生成
             if (!Gamepad.current.rightTrigger.isPressed &&
-                !Input.GetKeyDown(KeyCode.E)) return;
+                !Input.GetKeyDown(KeyCode.R)) return;
         }
 
         // 影の中央座標を取得

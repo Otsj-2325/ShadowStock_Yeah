@@ -6,12 +6,14 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     // 移動関連のパラメータ
-    [Header("速さの最低値")]
-    [SerializeField]
-    private float m_MinSpeed = 1.0f;
-    [Header("速さの最高値")]
-    [SerializeField]
-    private float m_MaxSpeed = 3.0f;
+    [Header("コントローラー操作のスピード")]
+    [SerializeField] private float m_Speed = 1.0f;
+
+    [Header("キーボード操作のスピード")]
+    [SerializeField] private float speedKeyborad = 2.0f;
+
+    [Header("ジャンプ中スピード(普段のスピードの割合)")]
+    [SerializeField] private float speedJump = 0.5f;
 
     // ジャンプ関係
     public float m_JumpPower;
@@ -22,13 +24,15 @@ public class PlayerController : MonoBehaviour
 
     public float knockBackPower;   // ノックバックさせる力
 
-    // 移動速度
+
     private Vector3 m_Velocity;
-    float m_Speed = 3.0f;
 
     private Rigidbody cp_Rigidbody;
 
     private float rayUnderLength;   // 地面着いた判定のレイキャストの長さ
+
+    private Vector3 leaveGroundPosition;    // 地面から離れた時の座標
+    private Vector3 beforePosition;         // 1フレーム前の座標
 
     // ステートマシン
     private enum STATE
@@ -53,15 +57,15 @@ public class PlayerController : MonoBehaviour
 
         stateNow = STATE.GROUND;
 
-        rayUnderLength = transform.localScale.y / 2 + 0.01f;
+        rayUnderLength = transform.localScale.y / 2 - 0.01f;
+
+        leaveGroundPosition = transform.position;
+        beforePosition = transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        // ゲームパッドが接続されていないとnullになる。
-        if (Gamepad.current == null) return;
-
         // ステートマシン
         switch (stateNow)
         {
@@ -77,114 +81,58 @@ public class PlayerController : MonoBehaviour
                 break;
         }
 
-        //MoveProc();
-        //JumpProc();
         ActionProc();
         CutProc();
         PasteProc();
 
-        //m_Velocity.y = m_JumpVelocity;
-        //cp_Rigidbody.velocity = m_Velocity;
+        beforePosition = transform.position;
     }
 
     void MoveProc()
     {
+        bool jump = false;
+        if(Gamepad.current == null)
+        {
+            if(Input.GetKeyDown(KeyCode.Space))     jump = true;
+        }
+        else
+        {
+            if(Input.GetKeyDown(KeyCode.Space) || Gamepad.current.buttonSouth.isPressed)
+            {
+                jump = true;
+            }
+        }
         // ジャンプ
-        if (Input.GetKey(KeyCode.Space) || Gamepad.current.buttonSouth.isPressed)
+        if (jump)
         {
             cp_Rigidbody.velocity = Vector3.zero;
             cp_Rigidbody.AddForce(Vector3.up * m_JumpPower);
-            Debug.Log("ジャンプ");
             stateNow = STATE.AIR;
             return;     // ジャンプしたらステートマシン変更のため処理終了
         }
 
-        // 初期化
-        m_Velocity = Vector3.zero;
-
-        // コントローラー
-        Vector2 leftStick = Gamepad.current.leftStick.ReadValue();
-        if (leftStick.x > 0.1f || leftStick.x < -0.1f)
+        // ジャンプせずに落下したら
+        if (cp_Rigidbody.velocity.y < -0.98f)
         {
-            m_Velocity.x = m_Speed * leftStick.x;
-        }
-        if (leftStick.y > 0.1f || leftStick.y < -0.1f)
-        {
-            m_Velocity.z = m_Speed * leftStick.y;
+            stateNow = STATE.AIR;
+            leaveGroundPosition = beforePosition;
+            return;     // 落下したらステートマシン変更のため処理終了
         }
 
-        // キーボード
-        // Wキー（前方移動）
-        if (Input.GetKey(KeyCode.W))
-        {
-            transform.position += m_Speed * transform.forward * Time.deltaTime;
-        }
-        // Sキー（後方移動）
-        if (Input.GetKey(KeyCode.S))
-        {
-            transform.position -= m_Speed * transform.forward * Time.deltaTime;
-        }
-        // Dキー（右移動）
-        if (Input.GetKey(KeyCode.D))
-        {
-            transform.position += m_Speed * transform.right * Time.deltaTime;
-        }
-        // Aキー（左移動）
-        if (Input.GetKey(KeyCode.A))
-        {
-            transform.position -= m_Speed * transform.right * Time.deltaTime;
-        }
-
-
-        Quaternion Rotation = Quaternion.LookRotation(m_Velocity.normalized, Vector3.up);
-        if (m_Velocity.magnitude != 0)
-        {
-            this.transform.rotation = Rotation;
-        }
-
-        cp_Rigidbody.AddForce(m_Velocity);
+        PlayerMove(m_Speed, speedKeyborad);
     }
 
     void JumpProc()
     {
         // レイキャストにより地面に当たったか判断
-        // 左
-        RaycastHit hit;
-        Vector3 temp = transform.position;
-        temp.x -= transform.localScale.x / 2;
-        if (Physics.Raycast(temp, Vector3.down, out hit, rayUnderLength))
+        if (cp_Rigidbody.velocity.y == 0.0f)
         {
+            cp_Rigidbody.velocity = Vector3.zero;
             stateNow = STATE.GROUND;
-            //Debug.Log("land");
             return;
         }
-        // 右
-        temp = transform.position;
-        temp.x += transform.localScale.x / 2;
-        if (Physics.Raycast(temp, Vector3.down, out hit, rayUnderLength))
-        {
-            stateNow = STATE.GROUND;
-            //Debug.Log("land");
-            return;
-        }
-        // 手前
-        temp = transform.position;
-        temp.z -= transform.localScale.z / 2;
-        if (Physics.Raycast(temp, Vector3.down, out hit, rayUnderLength))
-        {
-            stateNow = STATE.GROUND;
-            //Debug.Log("land");
-            return;
-        }
-        // 奥
-        temp = transform.position;
-        temp.z += transform.localScale.z / 2;
-        if (Physics.Raycast(temp, Vector3.down, out hit, rayUnderLength))
-        {
-            stateNow = STATE.GROUND;
-            //Debug.Log("land");
-            return;
-        }
+
+        PlayerMove(m_Speed * speedJump, speedKeyborad * speedJump);
     }
 
     void ActionProc()
@@ -229,12 +177,6 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        //if (collision.gameObject.CompareTag("Ground"))
-        //{
-        //    m_IsJumping = false;
-        //    m_JumpVelocity = 0.0f;
-        //}
-
         // 敵に触れたらノックバック
         if (collision.gameObject.CompareTag("Enemy"))
         {
@@ -245,9 +187,117 @@ public class PlayerController : MonoBehaviour
             Vector3 distination = (transform.position - collision.transform.position).normalized;
 
             cp_Rigidbody.AddForce(distination * knockBackPower, ForceMode.VelocityChange);
-
-            return;
         }
 
+        // 落下したら元居た場所に戻る
+        if (collision.gameObject.CompareTag("PlayerDeleteFloor"))
+        {
+            Debug.Log("back" + leaveGroundPosition.y);
+            transform.position = leaveGroundPosition;
+        }
     }
+
+    // プレイヤーの移動
+    private void PlayerMove(float controllerSpeed, float keyboradSpeed)
+    {
+        // 初期化
+        m_Velocity = Vector3.zero;
+
+        // コントローラー
+        if (Gamepad.current != null)
+        {
+            Vector2 leftStick = Gamepad.current.leftStick.ReadValue();
+            if (leftStick.x > 0.1f || leftStick.x < -0.1f)
+            {
+                m_Velocity.x = controllerSpeed * leftStick.x;
+            }
+            if (leftStick.y > 0.1f || leftStick.y < -0.1f)
+            {
+                m_Velocity.z = controllerSpeed * leftStick.y;
+            }
+
+            // 前を向かせる
+            if(m_Velocity != Vector3.zero)
+            {
+                Quaternion Rotation = Quaternion.LookRotation(m_Velocity.normalized, Vector3.up);
+                if (m_Velocity.magnitude != 0)
+                {
+                    this.transform.rotation = Rotation;
+                }
+            }
+        }
+
+        // キーボード
+        // Wキー（前方移動）
+        if (Input.GetKey(KeyCode.W))
+        {
+            Vector3 temp = new Vector3(0.0f, 0.0f, 0.1f * keyboradSpeed);
+            transform.position += temp;
+            transform.eulerAngles = new Vector3(0f, 0f, 0f);
+        }
+        // Sキー（後方移動）
+        if (Input.GetKey(KeyCode.S))
+        {
+            //transform.position -= m_Speed * transform.forward * Time.deltaTime;
+            Vector3 temp = new Vector3(0.0f, 0.0f, -0.1f * keyboradSpeed);
+            transform.position += temp;
+            transform.eulerAngles = new Vector3(0f, 180f, 0f);
+        }
+        // Dキー（右移動）
+        if (Input.GetKey(KeyCode.D))
+        {
+            Vector3 temp = new Vector3(0.1f * keyboradSpeed, 0.0f, 0.0f);
+            transform.position += temp;
+            transform.eulerAngles = new Vector3(0f, 90.0f, 0f);
+        }
+        // Aキー（左移動）
+        if (Input.GetKey(KeyCode.A))
+        {
+            Vector3 temp = new Vector3(-0.1f * keyboradSpeed, 0.0f, 0.0f);
+            transform.position += temp;
+            transform.eulerAngles = new Vector3(0f, -90.0f, 0f);
+        }
+
+        cp_Rigidbody.AddForce(m_Velocity);
+    }
+
+    //private bool PlayerOnGround()
+    //{
+    //    // レイキャストにより地面に当たったか判断
+    //    // 左
+    //    RaycastHit hit;
+    //    Vector3 temp = transform.position;
+    //    temp.x -= transform.localScale.x / 2;
+    //    if (Physics.Raycast(temp, Vector3.down, out hit, rayUnderLength))
+    //    {
+    //        //Debug.Log("land");
+    //        return true;
+    //    }
+    //    // 右
+    //    temp = transform.position;
+    //    temp.x += transform.localScale.x / 2;
+    //    if (Physics.Raycast(temp, Vector3.down, out hit, rayUnderLength))
+    //    {
+    //        //Debug.Log("land");
+    //        return true;
+    //    }
+    //    // 手前
+    //    temp = transform.position;
+    //    temp.z -= transform.localScale.z / 2;
+    //    if (Physics.Raycast(temp, Vector3.down, out hit, rayUnderLength))
+    //    {
+    //        //Debug.Log("land");
+    //        return true;
+    //    }
+    //    // 奥
+    //    temp = transform.position;
+    //    temp.z += transform.localScale.z / 2;
+    //    if (Physics.Raycast(temp, Vector3.down, out hit, rayUnderLength))
+    //    {
+    //        //Debug.Log("land");
+    //        return true;
+    //    }
+
+    //    return false;
+    //}
 }
