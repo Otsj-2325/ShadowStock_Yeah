@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System;
 
 public class PlayerController : MonoBehaviour
 {
@@ -31,8 +32,13 @@ public class PlayerController : MonoBehaviour
 
     private float rayUnderLength;   // 地面着いた判定のレイキャストの長さ
 
+    // 地面から離れた際の処理の変数
     private Vector3 leaveGroundPosition;    // 地面から離れた時の座標
-    private Vector3 beforePosition;         // 1フレーム前の座標
+    private Vector3 beforePosition;         // 数フレーム前の座標
+    private int beforeFrameNum = 10;        // 上のフレーム数の調整
+    private int frameCount;
+
+    private Action warp;
 
     // ステートマシン
     private enum STATE
@@ -45,6 +51,11 @@ public class PlayerController : MonoBehaviour
     /*==================AbeZone====================*/
     private SCR_GroundTrigger scr_GT;
     /*=============================================*/
+
+    public void SetWarp(Action action)
+    {
+        warp = action;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -61,10 +72,11 @@ public class PlayerController : MonoBehaviour
 
         leaveGroundPosition = transform.position;
         beforePosition = transform.position;
+        frameCount = 0;
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         // ステートマシン
         switch (stateNow)
@@ -85,7 +97,12 @@ public class PlayerController : MonoBehaviour
         CutProc();
         PasteProc();
 
-        beforePosition = transform.position;
+        // beforeFrameNum数のフレーム前の座標を取得
+        if (++frameCount > beforeFrameNum)
+        {
+            frameCount = 0;
+            beforePosition = transform.position;
+        }
     }
 
     void MoveProc()
@@ -112,7 +129,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // ジャンプせずに落下したら
-        if (cp_Rigidbody.velocity.y < -0.98f)
+        if (cp_Rigidbody.velocity.y < 0.0f)
         {
             stateNow = STATE.AIR;
             leaveGroundPosition = beforePosition;
@@ -192,7 +209,6 @@ public class PlayerController : MonoBehaviour
         // 落下したら元居た場所に戻る
         if (collision.gameObject.CompareTag("PlayerDeleteFloor"))
         {
-            Debug.Log("back" + leaveGroundPosition.y);
             transform.position = leaveGroundPosition;
         }
     }
@@ -260,44 +276,4 @@ public class PlayerController : MonoBehaviour
 
         cp_Rigidbody.AddForce(m_Velocity);
     }
-
-    //private bool PlayerOnGround()
-    //{
-    //    // レイキャストにより地面に当たったか判断
-    //    // 左
-    //    RaycastHit hit;
-    //    Vector3 temp = transform.position;
-    //    temp.x -= transform.localScale.x / 2;
-    //    if (Physics.Raycast(temp, Vector3.down, out hit, rayUnderLength))
-    //    {
-    //        //Debug.Log("land");
-    //        return true;
-    //    }
-    //    // 右
-    //    temp = transform.position;
-    //    temp.x += transform.localScale.x / 2;
-    //    if (Physics.Raycast(temp, Vector3.down, out hit, rayUnderLength))
-    //    {
-    //        //Debug.Log("land");
-    //        return true;
-    //    }
-    //    // 手前
-    //    temp = transform.position;
-    //    temp.z -= transform.localScale.z / 2;
-    //    if (Physics.Raycast(temp, Vector3.down, out hit, rayUnderLength))
-    //    {
-    //        //Debug.Log("land");
-    //        return true;
-    //    }
-    //    // 奥
-    //    temp = transform.position;
-    //    temp.z += transform.localScale.z / 2;
-    //    if (Physics.Raycast(temp, Vector3.down, out hit, rayUnderLength))
-    //    {
-    //        //Debug.Log("land");
-    //        return true;
-    //    }
-
-    //    return false;
-    //}
 }
