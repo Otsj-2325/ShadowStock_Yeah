@@ -35,7 +35,7 @@ public class WarpManager : MonoBehaviour
     void Start()
     {
         // ワープオブジェクトの個数が偶数でなければ処理しない
-        if (warpObj.Length / 2 != 0) return;
+        if (warpObj.Length % 2 != 0) return;
 
         // ワープオブジェクト
         for (int i = 0; i < warpObj.Length; i++)
@@ -76,7 +76,7 @@ public class WarpManager : MonoBehaviour
     private void Warp()
     {
         // ワープオブジェクトの個数が偶数でなければ処理しない
-        if (warpObj.Length / 2 != 0) return;
+        if (warpObj.Length % 2 != 0) return;
 
         for (int i = 0; i < warpPosition.Count; i++)
         {
@@ -129,7 +129,7 @@ public class WarpManager : MonoBehaviour
     private void ExitWarp()
     {
         // ワープオブジェクトの個数が偶数でなければ処理しない
-        if (warpObj.Length / 2 != 0) return;
+        if (warpObj.Length % 2 != 0) return;
 
         // 一回目の呼び出しは無視(ワープした後に元ワープポイントのExitを無視するため)
         if (warped)
