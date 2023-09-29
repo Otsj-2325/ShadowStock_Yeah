@@ -8,9 +8,6 @@ public class WarpCollitedPlayer : MonoBehaviour
     private Action warp;
     private Action exitWarp;
 
-    private bool warpAlraedy;
-    private bool warpFirst;
-
     // WarpManagerから参照
     public void SetWarp(Action action)
     {
@@ -26,8 +23,7 @@ public class WarpCollitedPlayer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        warpAlraedy = false;
-        warpFirst = false;
+
     }
 
     // Update is called once per frame
@@ -45,8 +41,6 @@ public class WarpCollitedPlayer : MonoBehaviour
         if (warp == null) return;
 
         warp?.Invoke();
-        warpAlraedy = true;
-        //warpFirst = true;
     }
 
     private void OnTriggerExit(Collider other)
@@ -57,9 +51,6 @@ public class WarpCollitedPlayer : MonoBehaviour
         // アクションがセットされいなければ処理しない
         if (exitWarp == null) return;
 
-        //if (warpAlraedy) return;
-
         exitWarp?.Invoke();
-        warpAlraedy = false;
     }
 }

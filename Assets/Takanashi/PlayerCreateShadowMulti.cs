@@ -8,14 +8,10 @@ using UnityEngine.InputSystem;
 
 public class PlayerCreateShadowMulti : MonoBehaviour
 {
-    [Header("実体化する左枠")]
-    [SerializeField] private GameObject playerFlameLeft;
-    [Header("実体化する右枠")]
-    [SerializeField] private GameObject playerFlameRight;
-    [Header("実体化する上枠")]
-    [SerializeField] private GameObject playerFlameUp;
-    [Header("実体化する下枠")]
-    [SerializeField] private GameObject playerFlameDown;
+    private GameObject playerFlameLeft;
+    private GameObject playerFlameRight;
+    private GameObject playerFlameUp;
+    private GameObject playerFlameDown;
 
     // 影と当たった枠の種類
     private enum CollitedPlayerFlame
@@ -161,6 +157,14 @@ public class PlayerCreateShadowMulti : MonoBehaviour
         //        !Input.GetKeyDown(KeyCode.E)) return;
         //}
 
+        playerFlameLeft = GameObject.FindGameObjectWithTag("FlameLeft");
+        playerFlameRight = GameObject.FindGameObjectWithTag("FlameRight");
+        playerFlameUp = GameObject.FindGameObjectWithTag("FlameUp");
+        playerFlameDown = GameObject.FindGameObjectWithTag("FlameDown");
+
+        // 枠オブジェクトがなかったら処理しない
+        if (playerFlameLeft == null) return;
+
         List<int> index = new List<int>();      // 枠内のゲームオブジェクトのインデックス番号
 
         // レイを生成し枠内の影のみ入れる
@@ -171,16 +175,16 @@ public class PlayerCreateShadowMulti : MonoBehaviour
             HashSet<Vector3> tempVertex = new HashSet<Vector3>();
             List<float> tempVertexX = new List<float>();
 
-            Vector3 dir = lightingGameObj[i].GetGameObject().gameObject.transform.position - gameObject.transform.position;
-
             foreach (Vector3 tempPoint in tempGameObjPoint)
             {
+                Vector3 tempdir = lightingGameObj[i].GetGameObject().gameObject.transform.position + tempPoint;
+                Vector3 dir = tempdir - gameObject.transform.position;
                 // レイの生成
-                dir += tempPoint;
-                Ray ray = new Ray(gameObject.transform.position, dir);
-                Debug.DrawRay(ray.origin, ray.direction * 30, Color.red, 0.1f); // 長さ３０、赤色で５秒間可視化
+                dir = dir.normalized;
+                Ray ray = new Ray(gameObject.transform.position, dir * 1.0f);
+                Debug.DrawRay(ray.origin, ray.direction * 20, Color.red, 0.1f); // 長さ３０、赤色で５秒間可視化
 
-                RaycastHit[] hits = Physics.RaycastAll(ray);
+                RaycastHit[] hits = Physics.RaycastAll(ray, 20.0f);
 
                 foreach (RaycastHit hit in hits)
                 {
@@ -190,14 +194,13 @@ public class PlayerCreateShadowMulti : MonoBehaviour
                     // 枠内にあるか
                     if (!InFlame)
                     {
-                        float flameUp = playerFlameLeft.transform.position.y + playerFlameLeft.transform.localScale.y / 2;
-                        float flameDown = playerFlameLeft.transform.position.y - playerFlameLeft.transform.localScale.y / 2;
+                        float flameUp = playerFlameUp.transform.position.y;
+                        float flameDown = playerFlameDown.transform.position.y;
                         if (playerFlameLeft.transform.position.x < hit.point.x &&
                             playerFlameRight.transform.position.x > hit.point.x &&
                             flameUp > hit.point.y && flameDown < hit.point.y)
                             InFlame = true;
                     }
-
                     tempVertex.Add(new Vector3(hit.point.x, hit.point.y, hit.point.z));
                     tempVertexX.Add(hit.point.x);
                 }
@@ -217,12 +220,12 @@ public class PlayerCreateShadowMulti : MonoBehaviour
         // 影生成するか否か
         if (Gamepad.current == null)
         {
-            // Eキーを押したら影の形からオブジェクトを生成
+            // Rキーを押したら影の形からオブジェクトを生成
             if (!Input.GetKeyDown(KeyCode.R)) return;
         }
         else
         {
-            // Eキーかパッドの右ボタンを押したら影の形からオブジェクトを生成
+            // Rキーかパッドの右ボタンを押したら影の形からオブジェクトを生成
             if (!Gamepad.current.rightTrigger.isPressed &&
                 !Input.GetKeyDown(KeyCode.R)) return;
         }
