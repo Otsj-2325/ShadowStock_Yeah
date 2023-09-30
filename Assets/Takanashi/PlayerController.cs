@@ -16,6 +16,9 @@ public class PlayerController : MonoBehaviour
     [Header("ジャンプ中スピード(普段のスピードの割合)")]
     [SerializeField] private float speedJump = 0.5f;
 
+    [Header("落下した後の停止時間")]
+    [SerializeField] private float stopTime = 1.5f;
+
     // ジャンプ関係
     public float m_JumpPower;
 
@@ -39,6 +42,9 @@ public class PlayerController : MonoBehaviour
     private int frameCount;
 
     private Action warp;
+
+    private bool isFellDown;    // 落下したか
+    private float time;         // 落下後の停止時間測定
 
     // ステートマシン
     private enum STATE
@@ -73,11 +79,26 @@ public class PlayerController : MonoBehaviour
         leaveGroundPosition = transform.position;
         beforePosition = transform.position;
         frameCount = 0;
+
+        isFellDown = false;
+        time = 0.0f;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        // 落下した
+        if (isFellDown)
+        {
+            time += Time.deltaTime;
+         
+            // 停止時間を過ぎていないなら処理しない
+            if (time < stopTime) return;
+
+            isFellDown = false;
+            time = 0f;
+        }
+
         // ステートマシン
         switch (stateNow)
         {
@@ -210,6 +231,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("PlayerDeleteFloor"))
         {
             transform.position = leaveGroundPosition;
+            isFellDown = true;
         }
     }
 
