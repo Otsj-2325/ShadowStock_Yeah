@@ -15,6 +15,12 @@ public class WarpManager : MonoBehaviour
     [Header("フレーム出現座標")]
     [SerializeField] private GameObject[] frameObjPos;
 
+    [Header("プレイヤーが消える床のオブジェクト")]
+    [SerializeField] private GameObject deleteFloorObj;
+
+    [Header("床からプレイヤーが消える床への距離")]
+    [SerializeField] private float deleteFloorSpace;
+
     //==================================================
     // private
     // プレイヤー移動
@@ -101,6 +107,12 @@ public class WarpManager : MonoBehaviour
 
                 // カメラ移動
                 scr_VM.SwitchVCam(i / 2 + 1 + 1);
+
+                // プレイヤーが消える床移動
+                Vector3 tempPos = new Vector3(deleteFloorObj.transform.position.x, warpPosition[i + 1].y, 
+                                              deleteFloorObj.transform.position.z);
+                tempPos.y -= deleteFloorSpace;
+                deleteFloorObj.transform.position = tempPos;
             }
             else
             {
@@ -118,6 +130,11 @@ public class WarpManager : MonoBehaviour
 
                 // カメラ移動
                 scr_VM.SwitchVCam(i / 2 + 1);
+
+                // プレイヤーが消える床移動
+                Vector3 tempPos = deleteFloorObj.transform.position;
+                tempPos.y += warpPosition[i - 1].y - deleteFloorSpace;
+                deleteFloorObj.transform.position = tempPos;
             }
             warped = true;
 
