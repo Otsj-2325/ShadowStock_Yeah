@@ -8,7 +8,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: ShadowStock_Player_rig_v03_ShadowStock_Player_model_ShdowStock_Player_TX
-    second: {fileID: -5568712683964320603, guid: ae67b8428cbca2a46b00364b7408eb9d, type: 3}
+    second: {fileID: -4295772334827996567, guid: 03b17b6ffc12cbb4ab6c8ec975d0bd0a, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
