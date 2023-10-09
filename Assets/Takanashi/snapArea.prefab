@@ -63,7 +63,7 @@ GameObject:
   - component: {fileID: 3519490012090929514}
   m_Layer: 0
   m_Name: snapArea_up
-  m_TagString: Untagged
+  m_TagString: FlameUp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -168,7 +168,7 @@ GameObject:
   - component: {fileID: 1745957040321054913}
   m_Layer: 0
   m_Name: snapArea_right
-  m_TagString: Untagged
+  m_TagString: FlameRight
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -273,7 +273,7 @@ GameObject:
   - component: {fileID: 5572180336229540367}
   m_Layer: 0
   m_Name: snapArea_down
-  m_TagString: Untagged
+  m_TagString: FlameDown
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -378,7 +378,7 @@ GameObject:
   - component: {fileID: 1917262210563673056}
   m_Layer: 0
   m_Name: snapArea_left
-  m_TagString: Untagged
+  m_TagString: FlameLeft
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
