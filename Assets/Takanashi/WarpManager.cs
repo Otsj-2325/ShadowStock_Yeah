@@ -15,6 +15,12 @@ public class WarpManager : MonoBehaviour
     [Header("フレーム出現座標")]
     [SerializeField] private GameObject[] frameObjPos;
 
+    [Header("ライト座標")]
+    [SerializeField] private GameObject[] lightObjPos;
+
+    [Header("影を作るライト")]
+    [SerializeField] private PlayerCreateShadowMulti lightObj;
+
     [Header("プレイヤーが消える床のオブジェクト")]
     [SerializeField] private GameObject deleteFloorObj;
 
@@ -34,8 +40,9 @@ public class WarpManager : MonoBehaviour
     private List<Vector3> framePosition = new List<Vector3>();
     private GameObject frameObjNow;
 
-    // カメラ
-    private SCR_VCamManager scr_VM;
+    private List<Vector3> lightPosition = new List<Vector3>();  // ライト
+
+    private SCR_VCamManager scr_VM;     // カメラ
 
     // Start is called before the first frame update
     void Start()
@@ -57,12 +64,21 @@ public class WarpManager : MonoBehaviour
         }
 
         // フレームオブジェクト
+        if (warpObj.Length / 2 + 1 != frameObjPos.Length) return;
         for(int i = 0; i < frameObjPos.Length; i++)
         {
             framePosition.Add(frameObjPos[i].transform.position);
         }
         frameObjNow = Instantiate(frameObj);
         frameObjNow.transform.position = framePosition[0];
+
+        // ライト
+        if (warpObj.Length / 2 + 1 != lightObjPos.Length) return;
+        for (int i = 0; i < lightObjPos.Length; i++)
+        {
+            lightPosition.Add(lightObjPos[i].transform.position);
+        }
+        lightObj.transform.position = lightPosition[0];
 
         playerObj = GameObject.FindGameObjectWithTag("Player");
         nowIndex = 0;
@@ -105,6 +121,9 @@ public class WarpManager : MonoBehaviour
                 frameObjNow = Instantiate(frameObj);
                 frameObjNow.transform.position = framePosition[i / 2 + 1];
 
+                // ライト移動
+                lightObj.transform.position = lightPosition[i / 2 + 1];
+
                 // カメラ移動
                 scr_VM.SwitchVCam(i / 2 + 1 + 1);
 
@@ -127,6 +146,9 @@ public class WarpManager : MonoBehaviour
                 Destroy(frameObjNow);
                 frameObjNow = Instantiate(frameObj);
                 frameObjNow.transform.position = framePosition[i / 2];
+
+                // ライト移動
+                lightObj.transform.position = lightPosition[i / 2];
 
                 // カメラ移動
                 scr_VM.SwitchVCam(i / 2 + 1);
