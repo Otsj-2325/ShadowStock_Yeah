@@ -63,6 +63,11 @@ public class PlayerController : MonoBehaviour
         warp = action;
     }
 
+    public void SetVectorZero()
+    {
+        m_Velocity = Vector3.zero;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -260,6 +265,7 @@ public class PlayerController : MonoBehaviour
                 Quaternion Rotation = Quaternion.LookRotation(m_Velocity.normalized, Vector3.up);
                 if (m_Velocity.magnitude != 0)
                 {
+                    Debug.Log("rotate");
                     this.transform.rotation = Rotation;
                 }
             }
