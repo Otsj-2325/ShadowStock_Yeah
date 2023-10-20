@@ -7,7 +7,7 @@ public class SCR_EffectManager : MonoBehaviour
     //ÉVÉìÉOÉãÉgÉì
     public static SCR_EffectManager instance;
 
-    [Header("01Å`12ÇÃî‘çÜèáÇ≈ì¸ÇÍÇÈ")]
+    [Header("01Å`15ÇÃî‘çÜèáÇ≈ì¸ÇÍÇÈ")]
     [SerializeField] private List<GameObject> m_EffectList = new List<GameObject>();
 
     private void Awake()
@@ -190,6 +190,62 @@ public class SCR_EffectManager : MonoBehaviour
         else
         {
             Debug.Log("Rock Effect is not set to m_EffectList[11]");
+            return null;
+        }
+    }
+
+    //013
+    public GameObject EFF_KumoAuraRed(Vector3 pos, Quaternion rot)
+    {
+        if (m_EffectList[12])
+        {
+            return Instantiate(m_EffectList[12], pos, rot);
+        }
+        else
+        {
+            Debug.Log("KumoAuraRed Efftec is not set to m_EffectList[12]");
+            return null;
+        }
+    }
+
+    //014
+    public GameObject EFF_KumoAuraYellow(Vector3 pos, Quaternion rot)
+    {
+        if (m_EffectList[13])
+        {
+            return Instantiate(m_EffectList[13], pos, rot);
+        }
+        else
+        {
+            Debug.Log("KumoAuraYellow Effect is not set to m_EffectList[13]");
+            return null;
+        }
+    }
+
+    //015
+    public GameObject EFF_HakoAuraRed(Vector3 pos, Quaternion rot)
+    {
+        if (m_EffectList[14])
+        {
+            return Instantiate(m_EffectList[14], pos, rot);
+        }
+        else
+        {
+            Debug.Log("HakoAuraRed Effect is not set to m_EffectList[14]");
+            return null;
+        }
+    } //015
+    
+    //016
+    public GameObject EFF_HakoAuraYellow(Vector3 pos, Quaternion rot)
+    {
+        if (m_EffectList[15])
+        {
+            return Instantiate(m_EffectList[15], pos, rot);
+        }
+        else
+        {
+            Debug.Log("HakoAuraYellow Effect is not set to m_EffectList[15]");
             return null;
         }
     }
