@@ -11,6 +11,10 @@ TagManager:
   - GameManager
   - LightingObject
   - PlayerDeleteFloor
+  - FlameLeft
+  - FlameRight
+  - FlameUp
+  - FlameDown
   layers:
   - Default
   - TransparentFX

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System;
 
 public class PlayerController : MonoBehaviour
 {
@@ -14,6 +15,9 @@ public class PlayerController : MonoBehaviour
 
     [Header("ジャンプ中スピード(普段のスピードの割合)")]
     [SerializeField] private float speedJump = 0.5f;
+
+    [Header("落下した後の停止時間")]
+    [SerializeField] private float stopTime = 1.5f;
 
     // ジャンプ関係
     public float m_JumpPower;
@@ -31,8 +35,16 @@ public class PlayerController : MonoBehaviour
 
     private float rayUnderLength;   // 地面着いた判定のレイキャストの長さ
 
+    // 地面から離れた際の処理の変数
     private Vector3 leaveGroundPosition;    // 地面から離れた時の座標
-    private Vector3 beforePosition;         // 1フレーム前の座標
+    private Vector3 beforePosition;         // 数フレーム前の座標
+    private int beforeFrameNum = 10;        // 上のフレーム数の調整
+    private int frameCount;
+
+    private Action warp;
+
+    private bool isFellDown;    // 落下したか
+    private float time;         // 落下後の停止時間測定
 
     // ステートマシン
     private enum STATE
@@ -45,6 +57,11 @@ public class PlayerController : MonoBehaviour
     /*==================AbeZone====================*/
     private SCR_GroundTrigger scr_GT;
     /*=============================================*/
+
+    public void SetWarp(Action action)
+    {
+        warp = action;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -61,11 +78,27 @@ public class PlayerController : MonoBehaviour
 
         leaveGroundPosition = transform.position;
         beforePosition = transform.position;
+        frameCount = 0;
+
+        isFellDown = false;
+        time = 0.0f;
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
+        // 落下した
+        if (isFellDown)
+        {
+            time += Time.deltaTime;
+         
+            // 停止時間を過ぎていないなら処理しない
+            if (time < stopTime) return;
+
+            isFellDown = false;
+            time = 0f;
+        }
+
         // ステートマシン
         switch (stateNow)
         {
@@ -85,7 +118,12 @@ public class PlayerController : MonoBehaviour
         CutProc();
         PasteProc();
 
-        beforePosition = transform.position;
+        // beforeFrameNum数のフレーム前の座標を取得
+        if (++frameCount > beforeFrameNum)
+        {
+            frameCount = 0;
+            beforePosition = transform.position;
+        }
     }
 
     void MoveProc()
@@ -112,7 +150,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // ジャンプせずに落下したら
-        if (cp_Rigidbody.velocity.y < -0.98f)
+        if (cp_Rigidbody.velocity.y < 0.0f)
         {
             stateNow = STATE.AIR;
             leaveGroundPosition = beforePosition;
@@ -192,8 +230,8 @@ public class PlayerController : MonoBehaviour
         // 落下したら元居た場所に戻る
         if (collision.gameObject.CompareTag("PlayerDeleteFloor"))
         {
-            Debug.Log("back" + leaveGroundPosition.y);
             transform.position = leaveGroundPosition;
+            isFellDown = true;
         }
     }
 
@@ -260,44 +298,4 @@ public class PlayerController : MonoBehaviour
 
         cp_Rigidbody.AddForce(m_Velocity);
     }
-
-    //private bool PlayerOnGround()
-    //{
-    //    // レイキャストにより地面に当たったか判断
-    //    // 左
-    //    RaycastHit hit;
-    //    Vector3 temp = transform.position;
-    //    temp.x -= transform.localScale.x / 2;
-    //    if (Physics.Raycast(temp, Vector3.down, out hit, rayUnderLength))
-    //    {
-    //        //Debug.Log("land");
-    //        return true;
-    //    }
-    //    // 右
-    //    temp = transform.position;
-    //    temp.x += transform.localScale.x / 2;
-    //    if (Physics.Raycast(temp, Vector3.down, out hit, rayUnderLength))
-    //    {
-    //        //Debug.Log("land");
-    //        return true;
-    //    }
-    //    // 手前
-    //    temp = transform.position;
-    //    temp.z -= transform.localScale.z / 2;
-    //    if (Physics.Raycast(temp, Vector3.down, out hit, rayUnderLength))
-    //    {
-    //        //Debug.Log("land");
-    //        return true;
-    //    }
-    //    // 奥
-    //    temp = transform.position;
-    //    temp.z += transform.localScale.z / 2;
-    //    if (Physics.Raycast(temp, Vector3.down, out hit, rayUnderLength))
-    //    {
-    //        //Debug.Log("land");
-    //        return true;
-    //    }
-
-    //    return false;
-    //}
 }
