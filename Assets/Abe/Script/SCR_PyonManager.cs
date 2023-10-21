@@ -32,7 +32,7 @@ public class SCR_PyonManager : MonoBehaviour
     void Start()
     {
         m_State = STATE.Idle;
-        m_SearchArea = transform.GetChild(0).gameObject;
+        m_SearchArea = transform.GetChild(1).gameObject;
         scr_Search = m_SearchArea.GetComponent<SCR_PyonSearch>();
         cp_Rb = gameObject.GetComponent<Rigidbody>();
     }
