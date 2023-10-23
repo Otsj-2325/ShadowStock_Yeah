@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class SCR_StageAnime : MonoBehaviour
 {
-    private Image image;
+    private RectTransform rectTransform;
 
     private float m_Time;
 
@@ -15,16 +15,16 @@ public class SCR_StageAnime : MonoBehaviour
     [SerializeField] private float m_AnimeSpeed;
     [SerializeField] private float m_DelayTime = 1.0f;
     [SerializeField]Vector3 m_TargetPos = new Vector3(500.0f, 600.0f, 0.0f);
-    [SerializeField] Vector2 m_TargetScale = new Vector2(800.0f, 1600.0f);
+    [SerializeField] Vector2 m_TargetScale = new Vector2(2880.0f, 1620.0f);
 
     public bool m_IsAnimeStart;
     public bool m_IsAnimeFin;
     // Start is called before the first frame update
     void Start()
     {
-        image = GetComponent<Image>();
-        initialPosition = image.rectTransform.anchoredPosition;
-        initialSize = new Vector2(image.rectTransform.rect.width, image.rectTransform.rect.height);
+        rectTransform = GetComponent<RectTransform>();
+        initialPosition = rectTransform.anchoredPosition;
+        initialSize = new Vector2(rectTransform.rect.width, rectTransform.rect.height);
         m_IsAnimeFin = false;
         m_IsAnimeStart = true;
         m_Time = 0.0f;
@@ -46,11 +46,11 @@ public class SCR_StageAnime : MonoBehaviour
                 if (Percentage >= 1.0f)
                 {
                     // Animation is complete, set final values
-                    image.rectTransform.anchoredPosition = m_TargetPos;
+                    rectTransform.anchoredPosition = m_TargetPos;
 
-                    image.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, m_TargetScale.x);
+                    rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, m_TargetScale.x);
 
-                    image.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, m_TargetScale.y);
+                    rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, m_TargetScale.y);
 
                     m_IsAnimeStart = false;
                     m_IsAnimeFin = true;
@@ -62,10 +62,10 @@ public class SCR_StageAnime : MonoBehaviour
                     Vector2 newSize = Vector2.Lerp(initialSize, m_TargetScale, Percentage);
 
                     // Apply interpolated values to the RectTransform
-                    image.rectTransform.anchoredPosition = newPosition;
-                    image.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, newSize.x);
+                    rectTransform.anchoredPosition = newPosition;
+                    rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, newSize.x);
 
-                    image.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, newSize.y);
+                    rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, newSize.y);
                 }
             }
         }
