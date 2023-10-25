@@ -3,7 +3,12 @@ guid: 51cb4b18f0e052d488fd420b35cc3f20
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Pyon_Mat
+    second: {fileID: 2100000, guid: c97839c0573f9c348b49a0d171b76c1d, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

@@ -40,7 +40,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: e6e402b41957db149a2ae980567dbc1e, type: 3}
+        m_Texture: {fileID: 2800000, guid: 79154ef5774e25642b854e302e563859, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -64,7 +64,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: e6e402b41957db149a2ae980567dbc1e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ExtraTex:
@@ -96,7 +96,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
-        m_Texture: {fileID: 2800000, guid: e6e402b41957db149a2ae980567dbc1e, type: 3}
+        m_Texture: {fileID: 2800000, guid: 79154ef5774e25642b854e302e563859, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _RightTex:
@@ -140,7 +140,7 @@ Material:
     - _BillboardKwToggle: 0
     - _BillboardShadowFade: 0.5
     - _BlendOp: 0
-    - _BumpScale: 0.5
+    - _BumpScale: 0.75
     - _CameraFadingEnabled: 0
     - _CameraFarFadeDistance: 2
     - _CameraNearFadeDistance: 1
@@ -158,7 +158,7 @@ Material:
     - _EnableExternalAlpha: 0
     - _Exposure: 1
     - _FlipbookMode: 0
-    - _GlossMapScale: 0
+    - _GlossMapScale: 0.415
     - _Glossiness: 0
     - _GlossyReflections: 1
     - _HueVariationKwToggle: 1
@@ -166,7 +166,7 @@ Material:
     - _Layout: 0
     - _LightingEnabled: 1
     - _Mapping: 1
-    - _Metallic: 0
+    - _Metallic: 1
     - _MirrorOnBack: 0
     - _Mode: 0
     - _NormalMapKwToggle: 0

@@ -1,9 +1,14 @@
 fileFormatVersion: 2
-guid: 64abfa6cbd1adca4595a3cc523ae173c
+guid: 60e16dd17a202c8408f9af37c3bcf76c
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ShadowStock_Pyon_v01_Pyon_Mat
+    second: {fileID: 2100000, guid: c97839c0573f9c348b49a0d171b76c1d, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
