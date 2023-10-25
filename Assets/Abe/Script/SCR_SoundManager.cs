@@ -13,9 +13,16 @@ public enum BGM_Type
 
 public enum SE_Type
 { //SE命名
-    Test01,
-    Test02,
-
+    Camera_In,
+    Camera_Out,
+    System_Decision,
+    System_Pose,
+    System_Select,
+    Player_Walk,
+    Player_Jump,
+    Player_Landing,
+    Player_KnockBack,
+    Player_Kick,
 }
 public class SCR_SoundManager : MonoBehaviour
 {
@@ -39,8 +46,8 @@ public class SCR_SoundManager : MonoBehaviour
     [Header("SE_Typeの順で")]
     public AudioClip[] m_SeClips;
 
-    private AudioSource[] m_BgmSources = new AudioSource[2];//同時(フェード用)に流せるBGM 2
-    private AudioSource[] m_SeSources = new AudioSource[10];//同時に流せるSE 10
+    private AudioSource[] m_BgmSources = new AudioSource[2];//同時(フェード用)に流せるBGM 
+    private AudioSource[] m_SeSources = new AudioSource[20];//同時に流せるSE 
 
     private bool m_CrossFading;
 
