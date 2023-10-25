@@ -6,6 +6,7 @@ using System;
 
 public class MeshObj : MonoBehaviour
 {
+    public GameObject[] wallObjects { private get; set; }
 
     public GameObject deleteFloorObj { private get; set; }
 
@@ -27,6 +28,11 @@ public class MeshObj : MonoBehaviour
     private float shakeMagnitude = 3.0f;
 
     private Rigidbody rigidBody = null;
+
+    private Vector3 beforePosition = Vector3.zero;
+    private int frameCount = 0;
+    private int beforeFrameNum = 10;
+    private Vector3 originalPosition = Vector3.zero;
 
     private Action actionCreatePlayer;
     private Action actionCreatePlayerShadow;
@@ -58,7 +64,9 @@ public class MeshObj : MonoBehaviour
 
         MeshCollider meshColliderTrigger = gameObject.AddComponent<MeshCollider>();
         meshColliderTrigger.convex = true;
-        meshColliderTrigger.isTrigger = true;        
+        meshColliderTrigger.isTrigger = true;
+
+        originalPosition = transform.position;
     }
 
     private void FixedUpdate()
@@ -85,7 +93,7 @@ public class MeshObj : MonoBehaviour
                     nowState = STATE.CREATED;
                     return;
                 }
-                
+
                 // コントローラー
                 if (Gamepad.current != null)
                 {
@@ -130,6 +138,13 @@ public class MeshObj : MonoBehaviour
                     Vector3 temp = new Vector3(-0.1f * speedKeyboard, 0.0f, 0.0f);
                     transform.position += temp;
                 }
+
+                // beforeFrameNum数のフレーム前の座標を取得
+                if (++frameCount > beforeFrameNum)
+                {
+                    frameCount = 0;
+                    beforePosition = transform.position;
+                }
                 break;
             case STATE.CREATE_CANT:
                 shakeTimer -= Time.time;
@@ -150,9 +165,24 @@ public class MeshObj : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other)
-    {
-        // 置けない場所にあったら
-        if (nowState == STATE.CREATE_PREPARE) inTrigger = true;
+    {     
+        // 準備中
+        if (nowState == STATE.CREATE_PREPARE)
+        {
+            // 壁に当たったら元の座標に戻す
+            foreach(GameObject obj in wallObjects)
+            {
+                if (other.gameObject == obj)
+                {
+                    Debug.Log("hit");
+                    transform.position = originalPosition;
+                    rigidBody.velocity = Vector3.zero;
+                    return;
+                }
+            }
+
+            inTrigger = true;
+        }
 
         // 削除する床に当たったら自分を消す
         if (nowState == STATE.CREATED && other.gameObject == deleteFloorObj) Destroy(this.gameObject);
