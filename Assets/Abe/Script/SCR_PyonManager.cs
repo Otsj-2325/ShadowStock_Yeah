@@ -179,10 +179,15 @@ public class SCR_PyonManager : MonoBehaviour
         if(m_IsKnockBack) { VeloFallProc(); }
         else
         {
+            if (m_lapseTimer == 0.0f) { SCR_EffectManager.instance.EFF_KumoAuraYellow(transform.position, transform.rotation); }
+
             m_lapseTimer += Time.deltaTime;//‘Ò‹@Œv‘ª
+         
             if (m_lapseTimer > 1.0f)//ˆê•bŒo‰ß
             {
                 m_IsFind = false;
+                m_IsKnockBack = false;
+                m_Anim.SetBool("KnockBack", false);
                 m_State = STATE.Patrol;
             }
         }

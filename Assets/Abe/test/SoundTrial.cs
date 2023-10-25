@@ -1,0 +1,22 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class SoundTrial : MonoBehaviour
+{
+    private float Vol = 0.0f;
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Z)) { SCR_SoundManager.instance.PlayBGM(BGM_Type.TITLE); }
+        if (Input.GetKeyDown(KeyCode.X)) { SCR_SoundManager.instance.PlayBGM(BGM_Type.TITLE); }
+        if (Input.GetKeyDown(KeyCode.C)) { SCR_SoundManager.instance.PlayBGM(BGM_Type.RESULT); }
+        if (Input.GetKeyDown(KeyCode.V)) { SCR_SoundManager.instance.PlayBGM(BGM_Type.SELECT); }
+        if (Input.GetKeyDown(KeyCode.B)) { SCR_SoundManager.instance.PlaySE(SE_Type.Test01); }
+        if (Input.GetKeyDown(KeyCode.N)) { SCR_SoundManager.instance.PlaySE(SE_Type.Test02); }
+        if (Input.GetKeyDown(KeyCode.M)) { SCR_SoundManager.instance.PauseBGM(); }
+        if (Input.GetKeyDown(KeyCode.L)) { SCR_SoundManager.instance.RestartBGM(); }
+        if (Input.GetKeyDown(KeyCode.K)) { SCR_SoundManager.instance.StopAllBGM(); }
+        if (Input.GetKeyDown(KeyCode.UpArrow)) { Vol += 0.1f; SCR_SoundManager.instance.SetVolumeBGM(Vol); }
+        if (Input.GetKeyDown(KeyCode.DownArrow)) { Vol -= 0.1f; SCR_SoundManager.instance.SetVolumeBGM(Vol); }
+    }
+}
