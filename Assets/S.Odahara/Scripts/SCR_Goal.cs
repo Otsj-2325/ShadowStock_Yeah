@@ -5,17 +5,21 @@ using UnityEngine;
 
 public class SCR_Goal : MonoBehaviour
 {
-    private SCR_ChangeScene scr_ChangeScene;
+    private SCR_VCamManager scr_VCamManager;
     private float m_Countnum;
     float m_time;
 
+    [SerializeField]
     private bool m_IsClearflg;//アニメーション用
+    [SerializeField]
+    private GameObject m_ResultPanel;//アニメーション用
+
     private bool m_IsGameOverflg;
     // Start is called before the first frame update
     void Start()
     {
-        scr_ChangeScene = GetComponent<SCR_ChangeScene>();
-        m_IsClearflg = false;
+        scr_VCamManager = FindObjectOfType<SCR_VCamManager>();
+        m_IsClearflg = true;//デバッグのためtrue
         m_IsGameOverflg = false;
         m_Countnum = 300.0f;
         m_time = 0.0f;
@@ -24,15 +28,12 @@ public class SCR_Goal : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        m_time += Time.deltaTime;
-        if (m_time >= 1.0f) 
-        { 
-            m_Countnum--;
-            m_time = 0.0f;
+        //デバッグ用
+        if(m_IsClearflg)
+        {
+            scr_VCamManager.SwitchVCam(3);
+            m_ResultPanel.SetActive(true);
         }
-
-        if (m_Countnum <= 0.0f) 
-        { scr_ChangeScene.Change("GameOverScene"); }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -42,7 +43,8 @@ public class SCR_Goal : MonoBehaviour
             float cleartime = 300 - m_Countnum;
             SCR_GameManager.SaveScore(cleartime);
             m_IsClearflg = true;
-            scr_ChangeScene.Change();
+            scr_VCamManager.SwitchVCam(3);
+            m_ResultPanel.SetActive(true);
         }
     }
 }

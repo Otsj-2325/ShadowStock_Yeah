@@ -6,6 +6,9 @@ public class WarpManager : MonoBehaviour
 {
     [Header("※順番は必ず下から上へ座標が行くように")]
 
+    [Header("プレイヤーオブジェクト")]
+    [SerializeField] private PlayerController playerObj;
+
     [Header("ワープオブジェクト(必ず偶数個になるように)")]
     [SerializeField] private GameObject[] warpObj;
 
@@ -25,7 +28,6 @@ public class WarpManager : MonoBehaviour
     // private
     // プレイヤー移動
     private List<Vector3> warpPosition = new List<Vector3>();
-    private GameObject playerObj;
     private int nowIndex;
     private int exitIndex;
     private bool warped;
@@ -34,8 +36,9 @@ public class WarpManager : MonoBehaviour
     private List<Vector3> framePosition = new List<Vector3>();
     private GameObject frameObjNow;
 
-    // カメラ
-    private SCR_VCamManager scr_VM;
+    private List<Vector3> lightPosition = new List<Vector3>();  // ライト
+
+    private SCR_VCamManager scr_VM;     // カメラ
 
     // Start is called before the first frame update
     void Start()
@@ -57,6 +60,7 @@ public class WarpManager : MonoBehaviour
         }
 
         // フレームオブジェクト
+        if (warpObj.Length / 2 + 1 != frameObjPos.Length) return;
         for(int i = 0; i < frameObjPos.Length; i++)
         {
             framePosition.Add(frameObjPos[i].transform.position);
@@ -64,7 +68,6 @@ public class WarpManager : MonoBehaviour
         frameObjNow = Instantiate(frameObj);
         frameObjNow.transform.position = framePosition[0];
 
-        playerObj = GameObject.FindGameObjectWithTag("Player");
         nowIndex = 0;
         exitIndex = -1;
         warped = false;
@@ -82,7 +85,7 @@ public class WarpManager : MonoBehaviour
     private void Warp()
     {
         // ワープオブジェクトの個数が偶数でなければ処理しない
-        if (warpObj.Length % 2 != 0) return;
+        if (warpObj.Length % 2 != 0 || playerObj == null) return;
 
         for (int i = 0; i < warpPosition.Count; i++)
         {
@@ -136,6 +139,7 @@ public class WarpManager : MonoBehaviour
                 tempPos.y += warpPosition[i - 1].y - deleteFloorSpace;
                 deleteFloorObj.transform.position = tempPos;
             }
+            playerObj.SetVectorZero();
             warped = true;
 
             return;
@@ -146,7 +150,7 @@ public class WarpManager : MonoBehaviour
     private void ExitWarp()
     {
         // ワープオブジェクトの個数が偶数でなければ処理しない
-        if (warpObj.Length % 2 != 0) return;
+        if (warpObj.Length % 2 != 0 || playerObj == null) return;
 
         // 一回目の呼び出しは無視(ワープした後に元ワープポイントのExitを無視するため)
         if (warped)

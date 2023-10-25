@@ -23,7 +23,7 @@ public class SCR_StageScroll : MonoBehaviour
     private int m_OldPosIndex = 0;
 
     private GameObject m_StageImageObj;
-    private Image m_StageImage;
+    private RectTransform m_StageRectTransform;
     private SCR_StageAnime scr_StageAnime;
     private Image image;
     private SCR_ChangeScene scr_ChangeScene;
@@ -35,7 +35,7 @@ public class SCR_StageScroll : MonoBehaviour
     void Start()
     {
         m_StageImageObj = GameObject.Find("StageImage");
-        m_StageImage = m_StageImageObj.GetComponent<Image>();
+        m_StageRectTransform = m_StageImageObj.GetComponent<RectTransform>();
         scr_StageAnime = m_StageImageObj.GetComponent<SCR_StageAnime>();
         image = GetComponent<Image>();
         scr_ChangeScene = GetComponent<SCR_ChangeScene>();
@@ -52,7 +52,7 @@ public class SCR_StageScroll : MonoBehaviour
             if (m_IsStageSelect)
             {
                 m_StageScoreList[m_PosIndex].SetActive(true);
-                m_StageImage.rectTransform.anchoredPosition = m_StagePosList[m_PosIndex];
+                m_StageRectTransform.anchoredPosition = m_StagePosList[m_PosIndex];
 
             }
 
@@ -78,7 +78,7 @@ public class SCR_StageScroll : MonoBehaviour
                     {
                         m_StageScoreList[m_OldPosIndex].SetActive(false);
                         m_StageScoreList[m_PosIndex].SetActive(true);
-                        m_StageImage.rectTransform.anchoredPosition = m_StagePosList[m_PosIndex];
+                        m_StageRectTransform.anchoredPosition = m_StagePosList[m_PosIndex];
                     }
                     image.sprite = m_StageSpriteList[m_PosIndex];
                     //scr_StageSelectAnime.Anime();
@@ -140,7 +140,7 @@ public class SCR_StageScroll : MonoBehaviour
                         {
                             m_StageScoreList[m_OldPosIndex].SetActive(false);
                             m_StageScoreList[m_PosIndex].SetActive(true);
-                            m_StageImage.rectTransform.anchoredPosition = m_StagePosList[m_PosIndex];
+                            m_StageRectTransform.anchoredPosition = m_StagePosList[m_PosIndex];
                         }
                     }
 

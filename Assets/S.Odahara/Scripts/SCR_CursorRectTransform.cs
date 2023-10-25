@@ -6,7 +6,7 @@ using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class SCR_Cursor : MonoBehaviour
+public class SCR_CursorRectTransform : MonoBehaviour
 {
     [SerializeField] List<RectTransform> m_PositionList;
     [SerializeField] List<UnityEvent> m_ButtonEventList;
