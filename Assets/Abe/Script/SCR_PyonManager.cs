@@ -109,7 +109,8 @@ public class SCR_PyonManager : MonoBehaviour
         else
         {
             m_lapseTimer += Time.deltaTime;//クールタイム計測
-            if(m_lapseTimer > m_lapseTime / 2)
+
+            if(m_lapseTimer > m_lapseTime / 2)//ジャンプ呼び動作分速く呼ぶ
             {
                 m_Anim.SetBool("Jump", true);
                 m_Anim.SetBool("Landing", false);
@@ -122,6 +123,8 @@ public class SCR_PyonManager : MonoBehaviour
                 m_Jump = true;
                 m_lapseTimer = 0.0f;
                 m_JumpTimer = 0.0f;
+
+                SCR_SoundManager.instance.PlaySE(SE_Type.PYON_Jump);//SE再生
 
                 //通常ジャンプの場合このタイミングで跳躍
                 if (!UseCurveJump) { cp_Rb.velocity = (transform.forward * m_MoveSpeed) + new Vector3(0.0f, m_JumpPower, 0.0f); }
@@ -140,6 +143,12 @@ public class SCR_PyonManager : MonoBehaviour
         {
             m_lapseTimer += Time.deltaTime;//クールタイム計測
 
+            if (m_lapseTimer > m_lapseTime / 2)//ジャンプ呼び動作分速く呼ぶ
+            {
+                m_Anim.SetBool("Jump", true);
+                m_Anim.SetBool("Landing", false);
+            }
+
             if (m_lapseTimer > m_lapseTime)
             {
                 var v = m_Target.transform.position - transform.position;//プレイヤへのベクトル
@@ -149,8 +158,8 @@ public class SCR_PyonManager : MonoBehaviour
                 m_Jump = true;
                 m_lapseTimer = 0.0f;
                 m_JumpTimer = 0.0f;
-                m_Anim.SetBool("Jump", true);
-                m_Anim.SetBool("Landing", false);
+
+                SCR_SoundManager.instance.PlaySE(SE_Type.PYON_Jump);//SE再生
 
                 //通常ジャンプの場合このタイミングで跳躍
                 if (!UseCurveJump) { cp_Rb.velocity = (transform.forward * m_MoveSpeed) + new Vector3(0.0f, m_JumpPower, 0.0f); }
@@ -238,9 +247,12 @@ public class SCR_PyonManager : MonoBehaviour
             m_Jump = false;
             m_IsKnockBack = false;
             cp_Rb.velocity = Vector3.zero;
+
             m_Anim.SetBool("Jump", false);
             m_Anim.SetBool("KnockBack", false);
             m_Anim.SetBool("Landing", true);
+
+            SCR_SoundManager.instance.PlaySE(SE_Type.PYON_Landing);//SE再生
         }
 
         if (collision.gameObject.CompareTag("Player"))

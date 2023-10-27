@@ -23,6 +23,15 @@ public enum SE_Type
     Player_Landing,
     Player_KnockBack,
     Player_Kick,
+    Player_Cut,
+    Player_Paste,
+    Gimmick_Rubble,
+    Gimmick_Light,
+    System_Goal,
+    System_NextLevel,
+    PYON_Landing,
+    PYON_Jump,
+    KAKU_Walk,
 }
 public class SCR_SoundManager : MonoBehaviour
 {
@@ -47,7 +56,7 @@ public class SCR_SoundManager : MonoBehaviour
     public AudioClip[] m_SeClips;
 
     private AudioSource[] m_BgmSources = new AudioSource[2];//同時(フェード用)に流せるBGM 
-    private AudioSource[] m_SeSources = new AudioSource[20];//同時に流せるSE 
+    private AudioSource[] m_SeSources = new AudioSource[30];//同時に流せるSE 
 
     private bool m_CrossFading;
 
