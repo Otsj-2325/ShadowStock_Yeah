@@ -160,7 +160,7 @@ GameObject:
   - component: {fileID: 5921284461377445873}
   - component: {fileID: 1856563313916251365}
   m_Layer: 0
-  m_Name: Prop_Turara
+  m_Name: prop_Turara
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -401,15 +401,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 43b58458476e6b242a449d22ffef2cc4, type: 3}
       propertyPath: m_LocalScale.x
-      value: 150
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 43b58458476e6b242a449d22ffef2cc4, type: 3}
       propertyPath: m_LocalScale.y
-      value: 150
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 43b58458476e6b242a449d22ffef2cc4, type: 3}
       propertyPath: m_LocalScale.z
-      value: 150
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 43b58458476e6b242a449d22ffef2cc4, type: 3}
       propertyPath: m_LocalPosition.x
