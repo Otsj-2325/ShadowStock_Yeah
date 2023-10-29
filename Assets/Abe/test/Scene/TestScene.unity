@@ -334,6 +334,87 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e539081e5c85ad46a2b00100fd263d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &496983033
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: d9b8caec31d6a464c856de74200c6caa, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d9b8caec31d6a464c856de74200c6caa, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d9b8caec31d6a464c856de74200c6caa, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d9b8caec31d6a464c856de74200c6caa, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 9.0486145
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d9b8caec31d6a464c856de74200c6caa, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.0000009536743
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d9b8caec31d6a464c856de74200c6caa, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -13.603843
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d9b8caec31d6a464c856de74200c6caa, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d9b8caec31d6a464c856de74200c6caa, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d9b8caec31d6a464c856de74200c6caa, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d9b8caec31d6a464c856de74200c6caa, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d9b8caec31d6a464c856de74200c6caa, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d9b8caec31d6a464c856de74200c6caa, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d9b8caec31d6a464c856de74200c6caa, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d9b8caec31d6a464c856de74200c6caa, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d9b8caec31d6a464c856de74200c6caa, type: 3}
+      propertyPath: m_Name
+      value: Anim_010300
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d9b8caec31d6a464c856de74200c6caa, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: d9b8caec31d6a464c856de74200c6caa, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 1146cba3eb4d33d4cbed1e915d9346cb, type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d9b8caec31d6a464c856de74200c6caa, type: 3}
 --- !u!1001 &642513312
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -349,6 +430,10 @@ PrefabInstance:
     - target: {fileID: 6042455051948060361, guid: 0e23e4d65909b394bae7fa03c32e49a4, type: 3}
       propertyPath: m_Name
       value: Pyon
+      objectReference: {fileID: 0}
+    - target: {fileID: 6042455051948060361, guid: 0e23e4d65909b394bae7fa03c32e49a4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7099099163760742763, guid: 0e23e4d65909b394bae7fa03c32e49a4, type: 3}
       propertyPath: m_Size.y
@@ -1353,3 +1438,4 @@ SceneRoots:
   - {fileID: 1326173556}
   - {fileID: 642513312}
   - {fileID: 2792323747805862732}
+  - {fileID: 496983033}

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SCR_PyonManager : MonoBehaviour
+public class SCR_PyonManager : MonoBehaviour, IFCGimmck
 {
     public enum STATE {//PyonState
         Patrol = 0,
@@ -263,16 +263,6 @@ public class SCR_PyonManager : MonoBehaviour
 
             Debug.Log("contact Player");
         }
-
-        if (collision.gameObject.CompareTag("Enemy"))//kick‚ÌTag‚ª•ª‚©‚ç‚ñ
-        {
-            m_State = STATE.KnockBack;
-            m_lapseTimer = 0.0f;
-
-            if (UseCurveJump) { m_JumpTimer = 0; }
-
-            KnockBack();
-        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -287,5 +277,15 @@ public class SCR_PyonManager : MonoBehaviour
             m_IsFind = true;
             Debug.Log("Find");
         }
+    }
+
+    public void GimmckAct()
+    {
+        m_State = STATE.KnockBack;
+        m_lapseTimer = 0.0f;
+
+        if (UseCurveJump) { m_JumpTimer = 0; }
+
+        KnockBack();
     }
 }
