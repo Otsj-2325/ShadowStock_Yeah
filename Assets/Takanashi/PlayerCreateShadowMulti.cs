@@ -2,16 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System;
 
 [RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(MeshFilter))]
 
 public class PlayerCreateShadowMulti : MonoBehaviour
 {
+    [Header("生成したオブジェクトを配置する際のスピード")]
+    [SerializeField] private float speedController;
+    [SerializeField] private float speedKeyboard;
+
+    [Header("削除される床")]
+    [SerializeField] private GameObject deleteFloorObj;
+
+    [Header("プレイヤー")]
+    [SerializeField] private PlayerController player;
+
+    [Header("地面マネージャー")]
+    [SerializeField] private GroundManager groundManager;
+
     private GameObject playerFlameLeft;
     private GameObject playerFlameRight;
     private GameObject playerFlameUp;
     private GameObject playerFlameDown;
+
+    private bool canCreate = true;
 
     // 影と当たった枠の種類
     private enum CollitedPlayerFlame
@@ -128,6 +144,11 @@ public class PlayerCreateShadowMulti : MonoBehaviour
     }
     private List<LightingGameObject> lightingGameObj = new List<LightingGameObject>();
 
+    private void SetCanCreate()
+    {
+        canCreate = true;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -144,18 +165,20 @@ public class PlayerCreateShadowMulti : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        //// 影生成するか否か
-        //if (Gamepad.current == null)
-        //{
-        //    // Eキーを押したら影の形からオブジェクトを生成
-        //    if (!Input.GetKeyDown(KeyCode.E)) return;
-        //}
-        //else
-        //{
-        //    // Eキーかパッドの右ボタンを押したら影の形からオブジェクトを生成
-        //    if (!Gamepad.current.rightTrigger.isPressed &&
-        //        !Input.GetKeyDown(KeyCode.E)) return;
-        //}
+        // 影生成するか否か
+        if (Gamepad.current == null)
+        {
+            // Rキーを押したら影の形からオブジェクトを生成
+            if (!Input.GetKeyDown(KeyCode.R)) return;
+        }
+        else
+        {
+            // Rキーかパッドの右ボタンを押したら影の形からオブジェクトを生成
+            if (!Gamepad.current.rightTrigger.isPressed &&
+                !Input.GetKeyDown(KeyCode.R)) return;
+        }
+
+        if (!canCreate) return;
 
         playerFlameLeft = GameObject.FindGameObjectWithTag("FlameLeft");
         playerFlameRight = GameObject.FindGameObjectWithTag("FlameRight");
@@ -178,10 +201,11 @@ public class PlayerCreateShadowMulti : MonoBehaviour
             foreach (Vector3 tempPoint in tempGameObjPoint)
             {
                 Vector3 tempdir = lightingGameObj[i].GetGameObject().gameObject.transform.position + tempPoint;
-                Vector3 dir = tempdir - gameObject.transform.position;
+                Vector3 tempdirInFront = new Vector3(tempdir.x, tempdir.y, tempdir.z - 1.0f);
+                Vector3 dir = tempdir - tempdirInFront;
                 // レイの生成
                 dir = dir.normalized;
-                Ray ray = new Ray(gameObject.transform.position, dir * 1.0f);
+                Ray ray = new Ray(tempdirInFront, dir * 1.0f);
                 Debug.DrawRay(ray.origin, ray.direction * 20, Color.red, 0.1f); // 長さ３０、赤色で５秒間可視化
 
                 RaycastHit[] hits = Physics.RaycastAll(ray, 20.0f);
@@ -218,17 +242,17 @@ public class PlayerCreateShadowMulti : MonoBehaviour
         }
 
         // 影生成するか否か
-        if (Gamepad.current == null)
-        {
-            // Rキーを押したら影の形からオブジェクトを生成
-            if (!Input.GetKeyDown(KeyCode.R)) return;
-        }
-        else
-        {
-            // Rキーかパッドの右ボタンを押したら影の形からオブジェクトを生成
-            if (!Gamepad.current.rightTrigger.isPressed &&
-                !Input.GetKeyDown(KeyCode.R)) return;
-        }
+        //if (Gamepad.current == null)
+        //{
+        //    // Rキーを押したら影の形からオブジェクトを生成
+        //    if (!Input.GetKeyDown(KeyCode.R)) return;
+        //}
+        //else
+        //{
+        //    // Rキーかパッドの右ボタンを押したら影の形からオブジェクトを生成
+        //    if (!Gamepad.current.rightTrigger.isPressed &&
+        //        !Input.GetKeyDown(KeyCode.R)) return;
+        //}
 
         // 影の中央座標を取得
         foreach (int tempIndex in index)
@@ -263,10 +287,34 @@ public class PlayerCreateShadowMulti : MonoBehaviour
             lightingGameObj[tempIndex].SetVertexNum(pointInFlame.Length / 2);
         }
 
+        // 座標を0に、サイズを1,1,1に
+        Vector3 center = Vector3.zero;
+        foreach(Vector3 tempPos in tempPointInFlameAll)
+        {
+            center += tempPos;
+        }
+        center /= tempPointInFlameAll.Count;
+        Vector3 max = Vector3.zero;
+        Vector3 min = Vector3.zero;
+        for(int i = 0; i < tempPointInFlameAll.Count; i++)
+        {
+            tempPointInFlameAll[i] -= center;
+            max = Vector3.Max(max, tempPointInFlameAll[i]);
+            min = Vector3.Min(min, tempPointInFlameAll[i]);
+        }
+        Vector3 size = max - min;
+        for (int i = 0; i < tempPointInFlameAll.Count; i++)
+        {
+            Vector3 tmp = tempPointInFlameAll[i];
+            tmp.x /= size.x;
+            tmp.y /= size.y;
+            tmp.z /= size.z;
+            tempPointInFlameAll[i] = tmp;
+        }
+
         Vector3[] pointInFlameAll = tempPointInFlameAll.ToArray();
-
         new_mesh.vertices = pointInFlameAll;
-
+        
 
         //=======================================
         // 頂点インデックスの生成
@@ -295,20 +343,28 @@ public class PlayerCreateShadowMulti : MonoBehaviour
         // 法線を計算して設定
         new_mesh.RecalculateNormals();
 
-        GameObject newObject = new GameObject("NewMeshObject");
+        GameObject newMeshObject = new GameObject("NewMeshObject");
 
         //MeshFilterはshredMeshをMeshRendererに引き渡す。
-        MeshFilter mfilter = newObject.AddComponent<MeshFilter>();
+        MeshFilter mfilter = newMeshObject.AddComponent<MeshFilter>();
         mfilter.mesh = new_mesh;
 
-        // MeshRendererを追加してマテリアルをアタッチ
-        MeshRenderer meshRenderer = newObject.AddComponent<MeshRenderer>();
-        MeshCollider meshCollider = newObject.AddComponent<MeshCollider>();
-        meshCollider.convex = true;
+        // 必要な位置に変更する
+        Vector3 groundScale;
+        Vector3 tmpPos = groundManager.GetGroundPosition(newMeshObject.transform.position, out groundScale);
+        tmpPos.y += 0.5f + groundScale.y / 2;
+        newMeshObject.transform.position = tmpPos;
 
-        newObject.transform.position = Vector3.zero; // 必要な位置に変更する
+        player.CreateNewMeshObjFromShadow();
 
-        newObject.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+        MeshObj meshObj = newMeshObject.AddComponent<MeshObj>();
+        meshObj.deleteFloorObj = deleteFloorObj;
+        meshObj.SetActionCreate(player.CreateEndNewMeshObjFromShadow);
+        meshObj.SetActionCreatePlayerShadow(SetCanCreate);
+        meshObj.speedController = speedController;
+        meshObj.speedKeyboard = speedKeyboard;
+
+        canCreate = false;
 
         // 今回使ったデータのリセット
         foreach (int tempIndex in index)
