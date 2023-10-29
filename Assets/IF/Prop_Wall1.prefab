@@ -59,7 +59,7 @@ Transform:
   m_GameObject: {fileID: 6609738290814713473}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.5, y: -3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -84,7 +84,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 9.14, y: 9, z: 2.85}
+  m_Size: {x: 3, y: 3, z: 1}
   m_Center: {x: -0.52, y: 4.5, z: 0}
 --- !u!1001 &685885095205978684
 PrefabInstance:
@@ -96,19 +96,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: c5f1af1d6c352a84284b867e97fc29d0, type: 3}
       propertyPath: m_LocalScale.x
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: c5f1af1d6c352a84284b867e97fc29d0, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: c5f1af1d6c352a84284b867e97fc29d0, type: 3}
-      propertyPath: m_LocalScale.z
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c5f1af1d6c352a84284b867e97fc29d0, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c5f1af1d6c352a84284b867e97fc29d0, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c5f1af1d6c352a84284b867e97fc29d0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c5f1af1d6c352a84284b867e97fc29d0, type: 3}
       propertyPath: m_LocalPosition.y
@@ -148,7 +148,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c5f1af1d6c352a84284b867e97fc29d0, type: 3}
       propertyPath: m_ConstrainProportionsScale
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: c5f1af1d6c352a84284b867e97fc29d0, type: 3}
       propertyPath: m_Name
