@@ -22,6 +22,9 @@ public class PlayerCreateShadowMulti : MonoBehaviour
     [Header("地面マネージャー")]
     [SerializeField] private GroundManager groundManager;
 
+    [Header("生成したオブジェクトを遮る壁")]
+    [SerializeField] private GameObject[] newMeshObjWalls;
+
     private GameObject playerFlameLeft;
     private GameObject playerFlameRight;
     private GameObject playerFlameUp;
@@ -179,7 +182,7 @@ public class PlayerCreateShadowMulti : MonoBehaviour
         }
 
         if (!canCreate) return;
-
+        
         playerFlameLeft = GameObject.FindGameObjectWithTag("FlameLeft");
         playerFlameRight = GameObject.FindGameObjectWithTag("FlameRight");
         playerFlameUp = GameObject.FindGameObjectWithTag("FlameUp");
@@ -363,6 +366,7 @@ public class PlayerCreateShadowMulti : MonoBehaviour
         meshObj.SetActionCreatePlayerShadow(SetCanCreate);
         meshObj.speedController = speedController;
         meshObj.speedKeyboard = speedKeyboard;
+        meshObj.wallObjects = newMeshObjWalls;
 
         canCreate = false;
 

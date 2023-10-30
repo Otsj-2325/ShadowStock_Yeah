@@ -6,8 +6,10 @@ using UnityEngine.SceneManagement;
 public class SCR_GameManager : MonoBehaviour
 {
     public static SCR_GameManager instance;
-    public static float[] m_StageScorenum = new float[5];//一応PlayerPrefs
-    public static string[] m_StageScore = new string[5];
+    [SerializeField]public static float[] m_StageScorenum = new float[5];//一応PlayerPrefs
+    [SerializeField] public static string[] m_StageScore = new string[5];
+
+    private static int m_stageNum;
 
     void Awake()
     {
@@ -36,39 +38,33 @@ public class SCR_GameManager : MonoBehaviour
     }
 
     //スコアを保存
-    public static void SaveScore(float score)
-    {
-
+    public static void SaveScore(int scoreTime, string score)
+    {    
         if (SceneManager.GetActiveScene().name == "Stage1Scene")// ステージ1シーン
         {
-            JudgeScore(score, 0, "Stage1Score");
-            PlayerPrefs.SetFloat("Stage1Time", score);
-            m_StageScorenum[0] = score;
+            m_stageNum = 1; 
         }
-        else//ステージ2とかが出来上がったら処理追加
+        else if (SceneManager.GetActiveScene().name == "Stage2Scene")//ステージ2
         {
+            m_stageNum = 2;
+        }
+        else if (SceneManager.GetActiveScene().name == "Stage3Scene")//ステージ2
+        {
+            m_stageNum = 3;
+        }
+        else if (SceneManager.GetActiveScene().name == "Stage4Scene")//ステージ2
+        {
+            m_stageNum = 4;
+        }
+        else if (SceneManager.GetActiveScene().name == "Stage5Scene")//ステージ2
+        {
+            m_stageNum = 5;
+        }
 
-        }
-    }
-
-    //Rank判定
-    public static void JudgeScore(float score,  int stagenum, string stagename)
-    {
-        if (score <= 100)//S
-        {
-            m_StageScore[stagenum] = "S";
-            PlayerPrefs.SetString(stagename, "S");
-        }
-        else if(score > 100 && score <= 200)//A
-        {
-            m_StageScore[stagenum] = "A";
-            PlayerPrefs.SetString(stagename, "A");
-        }
-        else//b
-        {
-            m_StageScore[stagenum] = "B";
-            PlayerPrefs.SetString(stagename, "B");
-        }
+        PlayerPrefs.SetInt($"Stage{m_stageNum}Time", scoreTime);
+        PlayerPrefs.SetString($"Stage{m_stageNum}Score", score);
+        m_StageScorenum[m_stageNum - 1] = scoreTime;
+        m_StageScore[m_stageNum - 1] = score;
     }
 
     //データを削除

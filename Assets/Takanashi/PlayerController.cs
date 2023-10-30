@@ -153,9 +153,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             if(Input.GetKeyDown(KeyCode.Space) || Gamepad.current.buttonSouth.isPressed)
-            {
                 jump = true;
-            }
         }
         // ジャンプ
         if (jump)
@@ -167,7 +165,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // ジャンプせずに落下したら
-        if (cp_Rigidbody.velocity.y < 0.0f)
+        if (cp_Rigidbody.velocity.y < -0.98f)
         {
             stateNow = STATE.AIR;
             leaveGroundPosition = beforePosition;

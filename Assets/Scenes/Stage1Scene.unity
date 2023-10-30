@@ -1112,6 +1112,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   m_IsVerticalStick: 0
+  offset: {x: 0, y: 0, z: 0}
   m_PosIndex: 0
   m_Delaytime: 0.4
   m_Time: 0
@@ -7380,8 +7381,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d1d1e7b1d45e5041a8147ef0809d580, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scr_Clock: {fileID: 0}
+  m_Result: {fileID: 0}
+  m_ResultScoreArray: []
+  m_scoreSTime: 0
+  m_scoreATime: 0
+  m_scoreBTime: 0
+  m_scoreCTime: 0
   m_IsClearflg: 0
-  m_ResultPanel: {fileID: 1621054605}
 --- !u!1 &2013868479
 GameObject:
   m_ObjectHideFlags: 0
