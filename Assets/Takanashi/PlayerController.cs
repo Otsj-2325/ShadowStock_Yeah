@@ -46,6 +46,8 @@ public class PlayerController : MonoBehaviour
     private bool isFellDown;    // 落下したか
     private float time;         // 落下後の停止時間測定
 
+    private bool isCreateNewMeshObj = false;    // 現在影からのオブジェクト作成中か
+
     // ステートマシン
     private enum STATE
     {
@@ -61,6 +63,21 @@ public class PlayerController : MonoBehaviour
     public void SetWarp(Action action)
     {
         warp = action;
+    }
+
+    public void SetVectorZero()
+    {
+        m_Velocity = Vector3.zero;
+    }
+
+    public void CreateNewMeshObjFromShadow()
+    {
+        isCreateNewMeshObj = true;
+    }
+
+    public void CreateEndNewMeshObjFromShadow()
+    {
+        isCreateNewMeshObj = false;
     }
 
     // Start is called before the first frame update
@@ -136,9 +153,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             if(Input.GetKeyDown(KeyCode.Space) || Gamepad.current.buttonSouth.isPressed)
-            {
                 jump = true;
-            }
         }
         // ジャンプ
         if (jump)
@@ -150,7 +165,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // ジャンプせずに落下したら
-        if (cp_Rigidbody.velocity.y < 0.0f)
+        if (cp_Rigidbody.velocity.y < -0.98f)
         {
             stateNow = STATE.AIR;
             leaveGroundPosition = beforePosition;
@@ -238,6 +253,8 @@ public class PlayerController : MonoBehaviour
     // プレイヤーの移動
     private void PlayerMove(float controllerSpeed, float keyboradSpeed)
     {
+        if (isCreateNewMeshObj) return;
+
         // 初期化
         m_Velocity = Vector3.zero;
 
@@ -260,6 +277,7 @@ public class PlayerController : MonoBehaviour
                 Quaternion Rotation = Quaternion.LookRotation(m_Velocity.normalized, Vector3.up);
                 if (m_Velocity.magnitude != 0)
                 {
+                    Debug.Log("rotate");
                     this.transform.rotation = Rotation;
                 }
             }
