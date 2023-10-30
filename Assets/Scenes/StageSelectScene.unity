@@ -491,6 +491,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: StageSelect
       objectReference: {fileID: 0}
+    - target: {fileID: 2838447116664848180, guid: 0269e8667b7013a4a916db497790e78d, type: 3}
+      propertyPath: m_Name
+      value: Cursor
+      objectReference: {fileID: 0}
     - target: {fileID: 7553867456377015250, guid: 0269e8667b7013a4a916db497790e78d, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
