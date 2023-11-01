@@ -69,13 +69,11 @@ public class PlayerFrameMove : MonoBehaviour
         // 右スティック横
         if (rightStick.x > 0.1f || rightStick.x < -0.1f)
         {
-            Debug.Log("move");
             move.x += rightStick.x;
         }
         // 右スティック縦
         if (rightStick.y > 0.1f || rightStick.y < -0.1f)
         {
-            Debug.Log("move");
             move.y += rightStick.y;
         }
 
