@@ -6158,6 +6158,10 @@ PrefabInstance:
       value: WarpManager
       objectReference: {fileID: 0}
     - target: {fileID: 7878698839913114190, guid: 2648b6d8fc0bf9240827db7c54617a35, type: 3}
+      propertyPath: frameObj
+      value: 
+      objectReference: {fileID: 6904501265309865831, guid: cfcb263b7e3562446ad80cbbd9a66ef5, type: 3}
+    - target: {fileID: 7878698839913114190, guid: 2648b6d8fc0bf9240827db7c54617a35, type: 3}
       propertyPath: lightObj
       value: 
       objectReference: {fileID: 1261157089}

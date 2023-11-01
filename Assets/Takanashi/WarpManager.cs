@@ -13,10 +13,12 @@ public class WarpManager : MonoBehaviour
     [SerializeField] private GameObject[] warpObj;
 
     [Header("フレームのオブジェクト")]
-    [SerializeField] private GameObject frameObj;
+    [SerializeField] private PlayerFrameMove frameObj;
 
     [Header("フレーム出現座標")]
     [SerializeField] private GameObject[] frameObjPos;
+    
+    [SerializeField] private WallManager _wallManager;
 
     [Header("プレイヤーが消える床のオブジェクト")]
     [SerializeField] private GameObject deleteFloorObj;
@@ -34,7 +36,7 @@ public class WarpManager : MonoBehaviour
 
     // フレームオブジェクト
     private List<Vector3> framePosition = new List<Vector3>();
-    private GameObject frameObjNow;
+    private PlayerFrameMove frameObjNow;
 
     private List<Vector3> lightPosition = new List<Vector3>();  // ライト
 
@@ -66,6 +68,7 @@ public class WarpManager : MonoBehaviour
             framePosition.Add(frameObjPos[i].transform.position);
         }
         frameObjNow = Instantiate(frameObj);
+        frameObjNow.wallManager = _wallManager;
         frameObjNow.transform.position = framePosition[0];
 
         nowIndex = 0;
@@ -106,6 +109,7 @@ public class WarpManager : MonoBehaviour
                 // フレームオブジェクト移動
                 Destroy(frameObjNow);
                 frameObjNow = Instantiate(frameObj);
+                frameObjNow.wallManager = _wallManager;
                 frameObjNow.transform.position = framePosition[i / 2 + 1];
 
                 // カメラ移動
@@ -129,6 +133,7 @@ public class WarpManager : MonoBehaviour
                 // フレームオブジェクト移動
                 Destroy(frameObjNow);
                 frameObjNow = Instantiate(frameObj);
+                frameObjNow.wallManager = _wallManager;
                 frameObjNow.transform.position = framePosition[i / 2];
 
                 // カメラ移動
