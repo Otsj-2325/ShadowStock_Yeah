@@ -8,6 +8,8 @@ public class PlayerFrameMove : MonoBehaviour
     [Header("動かすスピード")]
     [SerializeField] private float moveSpeed;
 
+    public WallManager wallManager { private get; set; }
+
     private Vector3 beforePosition;     // 前フレーム座標
     private Vector2 wallRightUpPos = Vector2.zero;         // 壁の右上端
     private Vector2 wallLeftDownPos = Vector2.zero;         // 壁の右上端
@@ -20,7 +22,7 @@ public class PlayerFrameMove : MonoBehaviour
 
         // 今いる壁を探知
         float posZ = gameObject.transform.position.z;
-        GameObject[] gameObjAll = GameObject.FindGameObjectsWithTag("Wall");
+        GameObject[] gameObjAll = wallManager.wallObjects;
         foreach (GameObject temp in gameObjAll)
         {
             float tempZ = temp.gameObject.transform.position.z;
@@ -30,11 +32,15 @@ public class PlayerFrameMove : MonoBehaviour
 
             Vector3 tempScale = temp.transform.localScale / 2;
 
+            Debug.Log(temp.transform.position);
+
             // 端点を取得
             wallRightUpPos.x = temp.transform.position.x + tempScale.x;
             wallRightUpPos.y = temp.transform.position.y + tempScale.y;
             wallLeftDownPos.x = temp.transform.position.x - tempScale.x;
             wallLeftDownPos.y = temp.transform.position.y - tempScale.y;
+
+            break;            
         }
 
         // 子オブジェクトを取得
@@ -53,7 +59,7 @@ public class PlayerFrameMove : MonoBehaviour
     private void FixedUpdate()
     {
         // ゲームパッドが接続されていないとnullになる
-        if (Gamepad.current == null) return;
+        if (Gamepad.current == null) return;       
 
         beforePosition = gameObject.transform.position;
 

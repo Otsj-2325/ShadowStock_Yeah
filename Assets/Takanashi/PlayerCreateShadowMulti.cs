@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System;
+using UnityEngine.iOS;
 
 [RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(MeshFilter))]
@@ -160,7 +161,9 @@ public class PlayerCreateShadowMulti : MonoBehaviour
         // Ç¢ÇÁÇ»Ç¢ì_ÇçÌèú
         foreach (GameObject temp in gameObjAll)
         {
+            Debug.Log(temp.gameObject.GetComponent<MeshFilter>().mesh.vertices.Length);
             HashSet<Vector3> tempGameObjPoint = DeletePoint(temp.gameObject.GetComponent<MeshFilter>().mesh, temp);
+            Debug.Log(tempGameObjPoint.Count);
             lightingGameObj.Add(new LightingGameObject(temp, tempGameObjPoint));
         }
     }
@@ -203,6 +206,8 @@ public class PlayerCreateShadowMulti : MonoBehaviour
 
             foreach (Vector3 tempPoint in tempGameObjPoint)
             {
+                Debug.Log("tempPoint : " + tempPoint);
+
                 Vector3 tempdir = lightingGameObj[i].GetGameObject().gameObject.transform.position + tempPoint;
                 Vector3 tempdirInFront = new Vector3(tempdir.x, tempdir.y, tempdir.z - 1.0f);
                 Vector3 dir = tempdir - tempdirInFront;
@@ -223,6 +228,9 @@ public class PlayerCreateShadowMulti : MonoBehaviour
                     {
                         float flameUp = playerFlameUp.transform.position.y;
                         float flameDown = playerFlameDown.transform.position.y;
+                        Debug.Log("flameUp : " + flameUp);
+                        Debug.Log("flameDown : " + flameDown);
+
                         if (playerFlameLeft.transform.position.x < hit.point.x &&
                             playerFlameRight.transform.position.x > hit.point.x &&
                             flameUp > hit.point.y && flameDown < hit.point.y)
@@ -235,12 +243,21 @@ public class PlayerCreateShadowMulti : MonoBehaviour
                 dir -= tempPoint;
             }
 
+            Debug.Log("fin foreach");
+
             // àÍìxÇ≈Ç‡ògì‡Ç…ì_Ç™ì¸Ç¡ÇƒÇ¢ÇΩÇÁ
             if (InFlame)
             {
                 lightingGameObj[i].SetVertex(tempVertex);
                 lightingGameObj[i].SetVertexX(tempVertexX);
                 index.Add(i);
+
+                Debug.Log("tempVertexX List");
+                foreach(var vx in tempVertexX){
+                    Debug.Log(vx);
+                }
+                Debug.Log("tempVertexX List Fin");
+
             }
         }
 
@@ -256,6 +273,11 @@ public class PlayerCreateShadowMulti : MonoBehaviour
         //    if (!Gamepad.current.rightTrigger.isPressed &&
         //        !Input.GetKeyDown(KeyCode.R)) return;
         //}
+
+        if(index.Count == 0){
+            Debug.Log("index.Count is 0");
+            return;
+        }
 
         // âeÇÃíÜâõç¿ïWÇéÊìæ
         foreach (int tempIndex in index)
@@ -316,6 +338,7 @@ public class PlayerCreateShadowMulti : MonoBehaviour
         }
 
         Vector3[] pointInFlameAll = tempPointInFlameAll.ToArray();
+        Debug.Log(tempPointInFlameAll.Count);
         new_mesh.vertices = pointInFlameAll;
         
 
@@ -359,6 +382,8 @@ public class PlayerCreateShadowMulti : MonoBehaviour
         newMeshObject.transform.position = tmpPos;
 
         player.CreateNewMeshObjFromShadow();
+
+        Debug.Log("363 success full");
 
         MeshObj meshObj = newMeshObject.AddComponent<MeshObj>();
         meshObj.deleteFloorObj = deleteFloorObj;
