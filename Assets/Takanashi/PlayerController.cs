@@ -277,7 +277,6 @@ public class PlayerController : MonoBehaviour
                 Quaternion Rotation = Quaternion.LookRotation(m_Velocity.normalized, Vector3.up);
                 if (m_Velocity.magnitude != 0)
                 {
-                    Debug.Log("rotate");
                     this.transform.rotation = Rotation;
                 }
             }

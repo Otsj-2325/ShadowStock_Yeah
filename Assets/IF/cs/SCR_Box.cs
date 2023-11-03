@@ -8,6 +8,7 @@ public class SCR_Box : MonoBehaviour
     public bool m_IsKick;
     public int m_IsKickCount;
     [SerializeField]private GameObject m_PlayerObj;
+    [SerializeField] private GameObject m_KickPower;
 
     // Start is called before the first frame update
     void Start()
@@ -24,9 +25,7 @@ public class SCR_Box : MonoBehaviour
         }
 
         cp_Rigidbody = GetComponent<Rigidbody>();
-        cp_Rigidbody.constraints = RigidbodyConstraints.FreezePositionX
-            | RigidbodyConstraints.FreezePositionZ
-            | RigidbodyConstraints.FreezeRotation;
+       // cp_Rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
     }
 
     // Update is called once per frame
@@ -46,10 +45,7 @@ public class SCR_Box : MonoBehaviour
         else
         {
             // å≈íË
-            cp_Rigidbody.constraints =
-              RigidbodyConstraints.FreezePositionX
-            | RigidbodyConstraints.FreezePositionZ
-            | RigidbodyConstraints.FreezeRotation;
+            //cp_Rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
         }
 
     }
@@ -81,9 +77,9 @@ public class SCR_Box : MonoBehaviour
     // Ç±Ç±
     private void IsKick()
     {
-        cp_Rigidbody.constraints =
-            RigidbodyConstraints.None
-          | RigidbodyConstraints.FreezeRotation;
+        Debug.Log("èRÇÁÇÍÇΩ");
+
+        //cp_Rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
 
         cp_Rigidbody.velocity = Vector3.zero;
 
@@ -94,9 +90,9 @@ public class SCR_Box : MonoBehaviour
         direction.Normalize();
 
 
-        cp_Rigidbody.AddForce(direction * 20, ForceMode.Impulse);
+        cp_Rigidbody.AddForce(direction * 10, ForceMode.Impulse);
 
-        m_IsKick = true;
+        //m_IsKick = true;
     }
 
    
