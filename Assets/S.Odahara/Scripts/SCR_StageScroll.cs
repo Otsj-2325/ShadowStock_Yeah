@@ -30,7 +30,7 @@ public class SCR_StageScroll : MonoBehaviour
     //private SCR_StageSelectAnime scr_StageSelectAnime;
 
     // レフトスティックの入力による選択の制約
-    private float m_LeftStickSensitivity = 0.9f; // レフトスティックの感度（値を大きくすると感度が下がる）
+    private float m_LeftStickSensitivity = 0.99f; // レフトスティックの感度（値を大きくすると感度が下がる）
 
     void Start()
     {
@@ -73,7 +73,7 @@ public class SCR_StageScroll : MonoBehaviour
                     }
 
 
-                    m_Time = m_Delaytime; //ディレイをリセット
+                    m_Time = 0.0f; //ディレイをリセット
                     if (m_IsStageSelect)
                     {
                         m_StageScoreList[m_OldPosIndex].SetActive(false);
