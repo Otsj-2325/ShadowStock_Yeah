@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 5739591635561292441}
   - component: {fileID: 7716522553480652717}
   - component: {fileID: 7202261111836683641}
-  - component: {fileID: 8533613358863695067}
   - component: {fileID: 8034071749166729192}
   - component: {fileID: 3499837343183796825}
+  - component: {fileID: 5241625910230905355}
   m_Layer: 0
   m_Name: Shadow
   m_TagString: Player
@@ -88,24 +88,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
---- !u!114 &8533613358863695067
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 609763383846519669}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 871124b1410071049828a9cf6536d197, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MinSpeed: 1
-  m_MaxSpeed: 3
-  m_JumpPower: 5
-  m_JumpVelocity: 0
-  m_IsJumping: 0
-  knockBackPower: 200
 --- !u!33 &8034071749166729192
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -156,6 +138,26 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &5241625910230905355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 609763383846519669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65bcafaa91f649f41995ce1448fbfc86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Speed: 8
+  speedKeyborad: 1
+  speedJump: 0.5
+  stopTime: 1.5
+  m_JumpPower: 400
+  m_JumpVelocity: 20
+  m_IsJumping: 0
+  knockBackPower: 0
 --- !u!1 &5538658774645079994
 GameObject:
   m_ObjectHideFlags: 0
