@@ -6,6 +6,8 @@ using System;
 
 public class MeshObj : MonoBehaviour
 {
+    public Material material { private get; set; }
+
     public GameObject[] wallObjects { private get; set; }
 
     public GameObject deleteFloorObj { private get; set; }
@@ -57,7 +59,12 @@ public class MeshObj : MonoBehaviour
         nowState = STATE.CREATE_PREPARE;
         
         MeshRenderer meshRenderer = gameObject.AddComponent<MeshRenderer>();
-        transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+        if (material != null)
+        {
+            meshRenderer.material = material;
+        }
+
+        transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);        
 
         rigidBody = gameObject.AddComponent<Rigidbody>();
         rigidBody.useGravity = false;
