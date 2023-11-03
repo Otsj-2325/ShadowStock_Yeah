@@ -8,7 +8,7 @@ public class SCR_Box : MonoBehaviour
     public bool m_IsKick;
     public int m_IsKickCount;
     [SerializeField]private GameObject m_PlayerObj;
-    [SerializeField] private GameObject m_KickPower;
+   // [SerializeField] private GameObject m_KickPower;
 
     // Start is called before the first frame update
     void Start()
@@ -95,5 +95,11 @@ public class SCR_Box : MonoBehaviour
         //m_IsKick = true;
     }
 
-   
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("PlayerDeleteFloor"))
+        {
+            Destroy(this.gameObject);
+        }
+    }
 }
