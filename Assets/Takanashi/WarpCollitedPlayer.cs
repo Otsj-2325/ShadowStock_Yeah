@@ -34,6 +34,8 @@ public class WarpCollitedPlayer : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.LogWarning("Anything enter");
+        
         // ƒvƒŒƒCƒ„[‚Æ“–‚½‚Á‚Ä‚¢‚È‚¯‚ê‚Îˆ—‚µ‚È‚¢
         if (!other.gameObject.CompareTag("Player")) return;
 

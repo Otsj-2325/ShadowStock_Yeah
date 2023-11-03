@@ -100,9 +100,12 @@ public class WarpManager : MonoBehaviour
             if (i % 2 == 0)
             {
                 if (exitIndex == i + 1) return;     // 一度ワープ地点から離れてワープするようにする
-                
+
+                Vector3 frontOfWarpPos = warpPosition[i + 1];
+                frontOfWarpPos.z = frontOfWarpPos.z - 3.0f;
+
                 // プレイヤー移動
-                playerObj.transform.position = warpPosition[i + 1];
+                playerObj.transform.position = frontOfWarpPos;
                 nowIndex = i + 1;
                 exitIndex = i;
 
