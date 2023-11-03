@@ -44,7 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11a90c9d53164eb42b4ba22bdf5e4a22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerObj: {fileID: 0}
   warpObj: []
   frameObj: {fileID: 26838998300608632, guid: cfcb263b7e3562446ad80cbbd9a66ef5, type: 3}
   frameObjPos:
   - {fileID: 0}
+  deleteFloorObj: {fileID: 0}
+  deleteFloorSpace: 5
