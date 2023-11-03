@@ -85,6 +85,9 @@ public class PlayerController : MonoBehaviour
     {
         cp_Rigidbody = GetComponent<Rigidbody>();
 
+        /*==================AbeZone====================*/
+        scr_GT = this.transform.Find("GroundTrigger").GetComponent<SCR_GroundTrigger>();
+        /*=============================================*/
 
         stateNow = STATE.GROUND;
 

@@ -119,7 +119,6 @@ public class SCR_ChangeUIScript : MonoBehaviour
     }
     public void Pause()
     {
-
         //”ñ•\Ž¦
         if(m_UI != null) m_UI.SetActive(false);
 
