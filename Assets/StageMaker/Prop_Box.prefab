@@ -127,6 +127,7 @@ MonoBehaviour:
   m_IsKick: 0
   m_IsKickCount: 0
   m_PlayerObj: {fileID: 0}
+  m_KickPower: {fileID: 0}
 --- !u!54 &5270726640932947941
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -167,7 +168,7 @@ GameObject:
   - component: {fileID: 4647637321252099800}
   m_Layer: 0
   m_Name: Col_Box
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

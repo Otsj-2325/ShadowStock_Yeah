@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using UnityEngine.UI;
 public class SCR_Clock : MonoBehaviour
 {
     [SerializeField] private Image timerImage = default!;
+    [SerializeField] private Transform clockHand = default!;
     [SerializeField] private Text timerText = default!;
     [SerializeField] private SCR_ChangeScene scr_ChangeScene = default!;
     [SerializeField] private SCR_Goal scr_Goal = default!;
@@ -39,6 +41,8 @@ public class SCR_Clock : MonoBehaviour
 
             timerText.text = $"{ limitTime - totalTime.Seconds}";
             timerImage.fillAmount = (float)(limitTime - totalTime.Seconds) / limitTime;
+
+            clockHand.DOLocalRotate(new Vector3(0.0f, 0.0f, -360.0f / limitTime * (totalTime.Seconds - countdown)), 0.0f);
 
             if (totalTime.Seconds > limitTime)//§ŒÀŠÔ‚ğ’´‚¦‚½‚ç
             {

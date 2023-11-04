@@ -85,10 +85,6 @@ public class PlayerController : MonoBehaviour
     {
         cp_Rigidbody = GetComponent<Rigidbody>();
 
-        /*==================AbeZone====================*/
-        scr_GT = this.transform.Find("GroundTrigger").GetComponent<SCR_GroundTrigger>();
-        /*=============================================*/
-
         stateNow = STATE.GROUND;
 
         rayUnderLength = transform.localScale.y / 2 - 0.01f;
@@ -250,6 +246,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        // óéâ∫ÇµÇΩÇÁå≥ãèÇΩèÍèäÇ…ñﬂÇÈ
+        if (other.CompareTag("PlayerDeleteFloor"))
+        {
+            transform.position = leaveGroundPosition;
+            isFellDown = true;
+        }
+    }
+
     // ÉvÉåÉCÉÑÅ[ÇÃà⁄ìÆ
     private void PlayerMove(float controllerSpeed, float keyboradSpeed)
     {
@@ -313,6 +319,9 @@ public class PlayerController : MonoBehaviour
             transform.eulerAngles = new Vector3(0f, -90.0f, 0f);
         }
 
-        cp_Rigidbody.AddForce(m_Velocity);
+        var vel = cp_Rigidbody.velocity;
+        vel.x = m_Velocity.x;
+        vel.z = m_Velocity.z;
+        cp_Rigidbody.velocity = vel;
     }
 }

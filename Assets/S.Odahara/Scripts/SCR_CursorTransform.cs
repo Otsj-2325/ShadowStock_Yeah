@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class SCR_CursorTransform : MonoBehaviour
 {
     [SerializeField] List<Transform> m_PositionList;
+    [SerializeField] List<GameObject> m_NonSelectImageList;
     [SerializeField] List<UnityEvent> m_ButtonEventList;
 
     [Header("上下にスティックを動かすか（左スティックのみ対応）") ]
@@ -28,6 +29,7 @@ public class SCR_CursorTransform : MonoBehaviour
     void Start()
     {
         transform.position = m_PositionList[0].position + offset;
+        m_NonSelectImageList[0].SetActive(true);
     }
 
     void Update()
