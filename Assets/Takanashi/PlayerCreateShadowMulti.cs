@@ -26,6 +26,9 @@ public class PlayerCreateShadowMulti : MonoBehaviour
     [Header("生成したオブジェクトを遮る壁")]
     [SerializeField] private GameObject[] newMeshObjWalls;
 
+    [Header("生成したオブジェクトのマテリアル")]
+    [SerializeField] private Material newMeshObjMaterial;
+
     private GameObject playerFlameLeft;
     private GameObject playerFlameRight;
     private GameObject playerFlameUp;
@@ -161,9 +164,7 @@ public class PlayerCreateShadowMulti : MonoBehaviour
         // いらない点を削除
         foreach (GameObject temp in gameObjAll)
         {
-            Debug.Log(temp.gameObject.GetComponent<MeshFilter>().mesh.vertices.Length);
             HashSet<Vector3> tempGameObjPoint = DeletePoint(temp.gameObject.GetComponent<MeshFilter>().mesh, temp);
-            Debug.Log(tempGameObjPoint.Count);
             lightingGameObj.Add(new LightingGameObject(temp, tempGameObjPoint));
         }
     }
@@ -206,8 +207,6 @@ public class PlayerCreateShadowMulti : MonoBehaviour
 
             foreach (Vector3 tempPoint in tempGameObjPoint)
             {
-                Debug.Log("tempPoint : " + tempPoint);
-
                 Vector3 tempdir = lightingGameObj[i].GetGameObject().gameObject.transform.position + tempPoint;
                 Vector3 tempdirInFront = new Vector3(tempdir.x, tempdir.y, tempdir.z - 1.0f);
                 Vector3 dir = tempdir - tempdirInFront;
@@ -228,8 +227,6 @@ public class PlayerCreateShadowMulti : MonoBehaviour
                     {
                         float flameUp = playerFlameUp.transform.position.y;
                         float flameDown = playerFlameDown.transform.position.y;
-                        Debug.Log("flameUp : " + flameUp);
-                        Debug.Log("flameDown : " + flameDown);
 
                         if (playerFlameLeft.transform.position.x < hit.point.x &&
                             playerFlameRight.transform.position.x > hit.point.x &&
@@ -243,21 +240,12 @@ public class PlayerCreateShadowMulti : MonoBehaviour
                 dir -= tempPoint;
             }
 
-            Debug.Log("fin foreach");
-
             // 一度でも枠内に点が入っていたら
             if (InFlame)
             {
                 lightingGameObj[i].SetVertex(tempVertex);
                 lightingGameObj[i].SetVertexX(tempVertexX);
                 index.Add(i);
-
-                Debug.Log("tempVertexX List");
-                foreach(var vx in tempVertexX){
-                    Debug.Log(vx);
-                }
-                Debug.Log("tempVertexX List Fin");
-
             }
         }
 
@@ -275,7 +263,6 @@ public class PlayerCreateShadowMulti : MonoBehaviour
         //}
 
         if(index.Count == 0){
-            Debug.Log("index.Count is 0");
             return;
         }
 
@@ -338,7 +325,6 @@ public class PlayerCreateShadowMulti : MonoBehaviour
         }
 
         Vector3[] pointInFlameAll = tempPointInFlameAll.ToArray();
-        Debug.Log(tempPointInFlameAll.Count);
         new_mesh.vertices = pointInFlameAll;
         
 
@@ -383,9 +369,8 @@ public class PlayerCreateShadowMulti : MonoBehaviour
 
         player.CreateNewMeshObjFromShadow();
 
-        Debug.Log("363 success full");
-
         MeshObj meshObj = newMeshObject.AddComponent<MeshObj>();
+        meshObj.material = newMeshObjMaterial;
         meshObj.deleteFloorObj = deleteFloorObj;
         meshObj.SetActionCreate(player.CreateEndNewMeshObjFromShadow);
         meshObj.SetActionCreatePlayerShadow(SetCanCreate);
@@ -518,8 +503,11 @@ public class PlayerCreateShadowMulti : MonoBehaviour
     // 影の中央座標を取得
     private Vector3 GetShadowCenterPosition(GameObject gameObj)
     {
-        Vector3 dir_center = gameObj.gameObject.transform.position - gameObject.transform.position;
-        Ray ray_center = new Ray(gameObject.transform.position, dir_center);
+        Vector3 lightingObjPos = gameObj.gameObject.transform.position;
+        Vector3 front_position = new Vector3(lightingObjPos.x, lightingObjPos.y,
+                                             lightingObjPos.z - 1.0f);
+        Vector3 dir_center = lightingObjPos - front_position;
+        Ray ray_center = new Ray(lightingObjPos, dir_center);
         RaycastHit[] hits_center = Physics.RaycastAll(ray_center);
         foreach (RaycastHit hit in hits_center)
         {
@@ -556,26 +544,113 @@ public class PlayerCreateShadowMulti : MonoBehaviour
                 }
             }
 
+            bool isSame = false;
+            Vector3 beforePos = Vector3.zero;
+            int beforeIndex = -1;
             foreach (Vector3 temp in vertex)
             {
                 // 中央の点ははける
                 if (temp == centerPos) continue;
 
                 // 右からのX座標と同じであれば座標を新しい変数に入れる
-                if (vertex_x[i] == temp.x)
+                if (vertex_x[i] != temp.x)
                 {
-                    // 上半分
-                    if (centerPos.y <= temp.y)
-                    {
-                        point[point_up_index++] = temp;
-                    }
-                    // 下半分
-                    else
-                    {
-                        point[vertex.Count - point_down_index] = temp;
-                        point_down_index++;
-                    }
+                    continue;
                 }
+
+                // 上半分
+                if (centerPos.y <= temp.y)
+                {
+                    //// 同じX座標だとしたらY座標の場所によって配列交換
+                    //if (isSame)
+                    //{
+                    //    //Debug.Log(temp);
+                    //    //Debug.Log(beforePos);
+                    //    Debug.Log(point_up_index);
+                    //    Debug.Log(beforeIndex);
+
+                    //    bool left = temp.x < centerPos.x &&
+                    //                beforePos.y > temp.y;
+                    //    bool right = temp.x >= centerPos.x &&
+                    //                 beforePos.y < temp.y;
+
+                    //    if (left || right)
+                    //    {
+                    //        if (left)
+                    //        {
+                    //            Debug.Log("left");
+                    //        }
+                    //        if (right)
+                    //        {
+                    //            Debug.Log("right");
+                    //        }
+
+                    //        point[beforeIndex] = temp;
+                    //        point[point_up_index] = beforePos;
+                    //    }
+                    //    else
+                    //    {
+                    //        point[point_up_index] = temp;
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    point[point_up_index] = temp;                        
+                    //}
+                    //beforeIndex = point_up_index;
+                    //point_up_index++;
+
+                    point[point_up_index] = temp;
+                    beforeIndex = point_up_index;
+                    point_up_index++;
+                }
+                // 下半分
+                else
+                {
+                    //if (isSame)
+                    //{
+                    //    //Debug.Log(temp);
+                    //    //Debug.Log(beforePos);
+                    //    //Debug.Log(vertex.Count - point_down_index);
+                    //    //Debug.Log(beforeIndex);
+
+                    //    bool left = temp.x < centerPos.x &&
+                    //                beforePos.y > temp.y;
+                    //    bool right = temp.x >= centerPos.x &&
+                    //                 beforePos.y < temp.y;
+
+                    //    if (left || right)
+                    //    {
+                    //        if (left)
+                    //        {
+                    //            Debug.Log("left");
+                    //        }
+                    //        if (right)
+                    //        {
+                    //            Debug.Log("right");
+                    //        }
+                    //        point[beforeIndex] = temp;
+                    //        point[vertex.Count - point_down_index] = beforePos;
+                    //    }
+                    //    else
+                    //    {
+                    //        point[vertex.Count - point_down_index] = temp;
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    point[vertex.Count - point_down_index] = temp;                        
+                    //}
+                    //beforeIndex = vertex.Count - point_down_index;
+                    //point_down_index++;
+
+                    point[vertex.Count - point_down_index] = temp;
+                    beforeIndex = vertex.Count - point_down_index;
+                    point_down_index++;
+                }
+
+                isSame = true;
+                beforePos = temp;
             }
         }
         //===========================================

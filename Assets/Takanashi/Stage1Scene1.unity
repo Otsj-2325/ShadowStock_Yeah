@@ -1312,6 +1312,7 @@ MonoBehaviour:
   m_PositionList:
   - {fileID: 809381695}
   - {fileID: 980911855}
+  m_NonSelectImageList: []
   m_ButtonEventList:
   - m_PersistentCalls:
       m_Calls:
@@ -9271,6 +9272,10 @@ PrefabInstance:
       propertyPath: speedController
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 4800436623902428925, guid: 0811c5431a4251b40adc5b2aae18b0a0, type: 3}
+      propertyPath: newMeshObjMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 2b3cdb598cc17e945aa8307e0929c7c0, type: 2}
     - target: {fileID: 4800436623902428925, guid: 0811c5431a4251b40adc5b2aae18b0a0, type: 3}
       propertyPath: newMeshObjWalls.Array.size
       value: 8

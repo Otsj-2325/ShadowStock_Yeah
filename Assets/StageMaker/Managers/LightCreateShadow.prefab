@@ -118,7 +118,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00996683e8f72a0449b1358d80b887d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerFlameLeft: {fileID: 0}
-  playerFlameRight: {fileID: 0}
-  playerFlameUp: {fileID: 0}
-  playerFlameDown: {fileID: 0}
+  speedController: 3
+  speedKeyboard: 1
+  deleteFloorObj: {fileID: 0}
+  player: {fileID: 0}
+  groundManager: {fileID: 0}
+  newMeshObjWalls: []
+  newMeshObjMaterial: {fileID: 2100000, guid: 2b3cdb598cc17e945aa8307e0929c7c0, type: 2}
