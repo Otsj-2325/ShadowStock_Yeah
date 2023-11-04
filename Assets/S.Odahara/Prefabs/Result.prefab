@@ -902,7 +902,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0.7071068, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: -0.0075006485}
-  m_LocalScale: {x: 0.20640753, y: 0.20640749, z: 0.20640749}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6876638070967142481}
@@ -994,7 +994,6 @@ MonoBehaviour:
   m_PositionList:
   - {fileID: 9180639502777891167}
   - {fileID: 6289471420212294174}
-  m_NonSelectImageList: []
   m_ButtonEventList:
   - m_PersistentCalls:
       m_Calls:
@@ -1025,7 +1024,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   m_IsVerticalStick: 0
-  offset: {x: 0, y: 0, z: 0}
+  offset: {x: 1.3, y: 0, z: 0}
   m_PosIndex: 0
   m_Delaytime: 0.4
   m_Time: 0

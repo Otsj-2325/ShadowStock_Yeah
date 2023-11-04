@@ -48,11 +48,12 @@ public class SCR_Goal : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collider)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collider.gameObject.CompareTag("Player"))
         {
             m_IsClearflg = true;
+            Debug.Log("atatta");
             
         }
     }

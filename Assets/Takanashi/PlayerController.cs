@@ -6,6 +6,12 @@ using System;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("ゴールのオブジェクト")]
+    [SerializeField] private SCR_Goal m_SCR_Goal = default!;
+
+    [Header("リザルトを表示するカメラ　->　Vcam04")]
+    [SerializeField] private Transform resultCamera;
+
     // 移動関連のパラメータ
     [Header("コントローラー操作のスピード")]
     [SerializeField] private float m_Speed = 1.0f;
@@ -100,43 +106,50 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        // 落下した
-        if (isFellDown)
-        {
-            time += Time.deltaTime;
-         
-            // 停止時間を過ぎていないなら処理しない
-            if (time < stopTime) return;
-
-            isFellDown = false;
-            time = 0f;
+        if (m_SCR_Goal.m_IsClearflg) {
+            transform.LookAt(resultCamera);
+            return; 
         }
-
-        // ステートマシン
-        switch (stateNow)
+        else
         {
-            case STATE.GROUND:
-                MoveProc();
-                break;
+            // 落下した
+            if (isFellDown)
+            {
+                time += Time.deltaTime;
 
-            case STATE.AIR:
-                JumpProc();
-                break;
+                // 停止時間を過ぎていないなら処理しない
+                if (time < stopTime) return;
 
-            default:
-                break;
-        }
+                isFellDown = false;
+                time = 0f;
+            }
 
-        ActionProc();
-        CutProc();
-        PasteProc();
+            // ステートマシン
+            switch (stateNow)
+            {
+                case STATE.GROUND:
+                    MoveProc();
+                    break;
 
-        // beforeFrameNum数のフレーム前の座標を取得
-        if (++frameCount > beforeFrameNum)
-        {
-            frameCount = 0;
-            beforePosition = transform.position;
-        }
+                case STATE.AIR:
+                    JumpProc();
+                    break;
+
+                default:
+                    break;
+            }
+
+            ActionProc();
+            CutProc();
+            PasteProc();
+
+            // beforeFrameNum数のフレーム前の座標を取得
+            if (++frameCount > beforeFrameNum)
+            {
+                frameCount = 0;
+                beforePosition = transform.position;
+            }
+        }  
     }
 
     void MoveProc()
@@ -186,10 +199,14 @@ public class PlayerController : MonoBehaviour
 
     void ActionProc()
     {
-        if (Gamepad.current.buttonEast.isPressed)
+        if(Gamepad.current != null)
         {
-            Debug.Log("アクション中");
+            if (Gamepad.current.buttonEast.isPressed)
+            {
+                Debug.Log("アクション中");
+            }
         }
+
 
         if (Input.GetKey(KeyCode.J))
         {
@@ -200,9 +217,12 @@ public class PlayerController : MonoBehaviour
 
     void CutProc()
     {
-        if (Gamepad.current.buttonNorth.isPressed)
+        if (Gamepad.current != null)
         {
-            Debug.Log("カット中");
+            if (Gamepad.current.buttonNorth.isPressed)
+            {
+                Debug.Log("カット中");
+            }
         }
 
         if (Input.GetKey(KeyCode.K))
@@ -213,9 +233,12 @@ public class PlayerController : MonoBehaviour
 
     void PasteProc()
     {
-        if (Gamepad.current.buttonWest.isPressed)
+        if (Gamepad.current != null)
         {
-            Debug.Log("ペースト中");
+            if (Gamepad.current.buttonWest.isPressed)
+            {
+                Debug.Log("ペースト中");
+            }
         }
 
         if (Input.GetKey(KeyCode.P))

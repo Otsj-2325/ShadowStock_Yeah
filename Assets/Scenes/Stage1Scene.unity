@@ -3944,7 +3944,7 @@ Transform:
   m_GameObject: {fileID: 717578384}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -31, y: 17, z: -3}
+  m_LocalPosition: {x: -31, y: 9.73, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6739,7 +6739,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6876638070967142481, guid: 54f9e2b582126934b9b27eacd9cc77b0, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 13
+      value: 9.86
       objectReference: {fileID: 0}
     - target: {fileID: 6876638070967142481, guid: 54f9e2b582126934b9b27eacd9cc77b0, type: 3}
       propertyPath: m_LocalRotation.w
@@ -9387,6 +9387,18 @@ PrefabInstance:
     - target: {fileID: 660692527055869640, guid: 1840646294c643a4c93ea198c6954f73, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2508337154959111323, guid: 1840646294c643a4c93ea198c6954f73, type: 3}
+      propertyPath: m_SCR_Goal
+      value: 
+      objectReference: {fileID: 1539054229}
+    - target: {fileID: 2508337154959111323, guid: 1840646294c643a4c93ea198c6954f73, type: 3}
+      propertyPath: resultCamera
+      value: 
+      objectReference: {fileID: 717578386}
+    - target: {fileID: 3293044904676577846, guid: 1840646294c643a4c93ea198c6954f73, type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 5425549469701444978, guid: 1840646294c643a4c93ea198c6954f73, type: 3}
       propertyPath: m_Name
