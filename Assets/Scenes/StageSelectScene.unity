@@ -496,6 +496,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: StageSelect
       objectReference: {fileID: 0}
+    - target: {fileID: 2753578608431939066, guid: 0269e8667b7013a4a916db497790e78d, type: 3}
+      propertyPath: m_StageSpriteList.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2838447116664848180, guid: 0269e8667b7013a4a916db497790e78d, type: 3}
       propertyPath: m_Name
       value: Cursor
@@ -579,6 +583,26 @@ PrefabInstance:
     - target: {fileID: 7553867456377015250, guid: 0269e8667b7013a4a916db497790e78d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7942088906154726967, guid: 0269e8667b7013a4a916db497790e78d, type: 3}
+      propertyPath: m_PosIndex
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7942088906154726967, guid: 0269e8667b7013a4a916db497790e78d, type: 3}
+      propertyPath: m_StageSpriteList.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9187545625860583076, guid: 0269e8667b7013a4a916db497790e78d, type: 3}
+      propertyPath: m_StagePosList.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9187545625860583076, guid: 0269e8667b7013a4a916db497790e78d, type: 3}
+      propertyPath: m_StageScoreList.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9187545625860583076, guid: 0269e8667b7013a4a916db497790e78d, type: 3}
+      propertyPath: m_StageSpriteList.Array.size
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

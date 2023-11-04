@@ -15,8 +15,8 @@ public class SCR_Score : MonoBehaviour
         
         for(int i = 0; i < m_StageNum; i++)
         {
-            var scoreString = PlayerPrefs.GetString($"Stage{i}Score", "---");
-            var timeNum = PlayerPrefs.GetInt($"Stage{i}Time", 0);
+            var scoreString = PlayerPrefs.GetString($"Stage{i + 1}Score", "---");
+            var timeNum = PlayerPrefs.GetInt($"Stage{i + 1}Time", 0);
 
             m_ScoreTexts[i].text = timeNum <= 0 ? $"SCORE :{scoreString}\n  TIME : ---" : $"SCORE :{scoreString}\n  TIME : {timeNum}"; 
         }

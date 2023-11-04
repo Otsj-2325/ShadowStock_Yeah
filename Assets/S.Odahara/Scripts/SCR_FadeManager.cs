@@ -66,14 +66,13 @@ public class SCR_FadeManager : MonoBehaviour
         if (m_fadeImage == null) Init();
         m_nextScene = scenename;
         m_fadeTime = fadetime;
-        m_fadeImage.color = col;     
+        m_fadeImage.color = col;
         m_fadeCanvas.enabled = true;
         m_alpha = 0.0f;
         m_isFadeOut = true;
         m_isFadeOutFinish = false;
-        Time.timeScale = 0f;//時止める
-    }
-
+        Time.timeScale = 0f; 
+        }
     void Update()
     {
         //フラグ有効なら毎フレームフェードイン/アウト処理

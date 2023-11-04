@@ -12,7 +12,6 @@ public class SCR_Clock : MonoBehaviour
     [SerializeField] private Image timerImage = default!;
     [SerializeField] private Transform clockHand = default!;
     [SerializeField] private Text timerText = default!;
-    [SerializeField] private SCR_ChangeScene scr_ChangeScene = default!;
     [SerializeField] private SCR_Goal scr_Goal = default!;
 
     [Header("カウントし始めるまでの時間")]
@@ -56,10 +55,10 @@ public class SCR_Clock : MonoBehaviour
                 cullentScoreTime = scoreTotalTime - countdown;//かかった時間を保存
             }
 
-            if (scoreTotalTime > limitTime)//制限時間を超えたら
+            if (scoreTotalTime == limitTime)//制限時間を超えたら
             {
                 cullentScoreTime = 0;
-                scr_ChangeScene.Change("GameOverScene");//ゲームオーバーシーンに遷移
+                SCR_FadeManager.FadeOut("GameOverScene", Color.black, 0.4f);//ゲームオーバーシーンに遷移
             }
 
         }

@@ -24,18 +24,9 @@ public class SCR_GameManager : MonoBehaviour
             // 既に存在する場合は重複しないように削除
             Destroy(this.gameObject);
         }
+        Application.targetFrameRate = 60; 
     }
 
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     //スコアを保存
     public static void SaveScore(int scoreTime, string score)

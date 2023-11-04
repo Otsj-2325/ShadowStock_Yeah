@@ -53,7 +53,6 @@ public class SCR_Goal : MonoBehaviour
         if (collider.gameObject.CompareTag("Player"))
         {
             m_IsClearflg = true;
-            Debug.Log("atatta");
             
         }
     }
