@@ -15,8 +15,7 @@ public class SCR_CursorTransform : MonoBehaviour
     [SerializeField] bool m_IsVerticalStick;
 
     [Header("transform オフセット")]
-    [SerializeField] Vector3 offset = default!;
-
+    [SerializeField] Vector3 offset = default;
 
     [SerializeField] private int m_PosIndex = 0;
     [SerializeField] private float m_Delaytime = 0.4f;
