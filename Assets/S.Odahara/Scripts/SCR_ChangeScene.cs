@@ -31,8 +31,6 @@ public class SCR_ChangeScene : MonoBehaviour
     public static string loadAfterScene;
 
 
-    private float m_time = 0.0f;
-
     // Start is called before the first frame update
     void Start()
     {

@@ -9,7 +9,6 @@ using UnityEngine.UI;
 public class SCR_CursorTransform : MonoBehaviour
 {
     [SerializeField] List<Transform> m_PositionList;
-    [SerializeField] List<GameObject> m_NonSelectImageList;
     [SerializeField] List<UnityEvent> m_ButtonEventList;
 
     [Header("上下にスティックを動かすか（左スティックのみ対応）") ]
@@ -24,12 +23,11 @@ public class SCR_CursorTransform : MonoBehaviour
     [SerializeField] private float m_Time = 0.0f;
 
     // レフトスティックの入力による選択の制約
-    private float m_LeftStickSensitivity = 0.9f; // レフトスティックの感度（値を大きくすると感度が下がる）
+    private float m_LeftStickSensitivity = 0.99f; // レフトスティックの感度（値を大きくすると感度が下がる）
 
     void Start()
     {
         transform.position = m_PositionList[0].position + offset;
-        m_NonSelectImageList[0].SetActive(true);
     }
 
     void Update()

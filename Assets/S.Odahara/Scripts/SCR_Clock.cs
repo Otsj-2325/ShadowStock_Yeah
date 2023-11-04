@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+//まだ途中
 public class SCR_Clock : MonoBehaviour
 {
     [SerializeField] private Image timerImage = default!;
@@ -22,6 +23,9 @@ public class SCR_Clock : MonoBehaviour
     private DateTime startDateTime;
     private TimeSpan totalTime;
     private int limitTime;
+    private int previousTime; 
+    private int cullentTime;
+    private int scoreTotalTime;
 
     public int cullentScoreTime;
 
@@ -34,21 +38,30 @@ public class SCR_Clock : MonoBehaviour
 
     private void Update()
     {
+        previousTime = totalTime.Seconds;
         totalTime = DateTime.Now - startDateTime;
+        cullentTime = totalTime.Seconds;
+        if (cullentTime != previousTime) scoreTotalTime += 1;
 
-        if (totalTime.Seconds > countdown && !scr_Goal.m_IsClearflg)
+        if (scoreTotalTime > countdown && !scr_Goal.m_IsClearflg)
         {
-
-            timerText.text = $"{ limitTime - totalTime.Seconds}";
-            timerImage.fillAmount = (float)(limitTime - totalTime.Seconds) / limitTime;
-
-            clockHand.DOLocalRotate(new Vector3(0.0f, 0.0f, -360.0f / limitTime * (totalTime.Seconds - countdown)), 0.0f);
-
-            if (totalTime.Seconds > limitTime)//制限時間を超えたら
+            if(cullentTime != previousTime)
             {
-                scr_ChangeScene.Change();//ゲームオーバーシーンに遷移
+
+                timerText.text = $"{ stageTime - scoreTotalTime + countdown}";
+                timerImage.fillAmount = (float)(stageTime - (scoreTotalTime - countdown)) / stageTime;
+
+                clockHand.DOLocalRotate(new Vector3(0.0f, 0.0f, -360.0f / stageTime * (scoreTotalTime - countdown)), 0.0f);
+
+                cullentScoreTime = scoreTotalTime - countdown;//かかった時間を保存
             }
-            cullentScoreTime = totalTime.Seconds - countdown;//かかった時間を保存
+
+            if (scoreTotalTime > limitTime)//制限時間を超えたら
+            {
+                cullentScoreTime = 0;
+                scr_ChangeScene.Change("GameOverScene");//ゲームオーバーシーンに遷移
+            }
+
         }
 
     }
