@@ -5779,6 +5779,10 @@ PrefabInstance:
       propertyPath: countdown
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 189670959052950453, guid: 60ea78715c15f5f45825d802aabd20f2, type: 3}
+      propertyPath: stageTime
+      value: 240
+      objectReference: {fileID: 0}
     - target: {fileID: 6582677673019834008, guid: 60ea78715c15f5f45825d802aabd20f2, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
