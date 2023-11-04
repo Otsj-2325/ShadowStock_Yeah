@@ -492,10 +492,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 49492603}
     m_Modifications:
+    - target: {fileID: 674264991093413774, guid: 0269e8667b7013a4a916db497790e78d, type: 3}
+      propertyPath: m_Type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 674264991093413774, guid: 0269e8667b7013a4a916db497790e78d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -823380279, guid: f5183b4a66cfb4d48b16c3934480141e, type: 3}
+    - target: {fileID: 1990297344866986467, guid: 0269e8667b7013a4a916db497790e78d, type: 3}
+      propertyPath: m_Type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1990297344866986467, guid: 0269e8667b7013a4a916db497790e78d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -823380279, guid: f5183b4a66cfb4d48b16c3934480141e, type: 3}
     - target: {fileID: 2434817135763035608, guid: 0269e8667b7013a4a916db497790e78d, type: 3}
       propertyPath: m_Name
       value: StageSelect
       objectReference: {fileID: 0}
+    - target: {fileID: 2564158951873423991, guid: 0269e8667b7013a4a916db497790e78d, type: 3}
+      propertyPath: m_Type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2564158951873423991, guid: 0269e8667b7013a4a916db497790e78d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -823380279, guid: f5183b4a66cfb4d48b16c3934480141e, type: 3}
     - target: {fileID: 2753578608431939066, guid: 0269e8667b7013a4a916db497790e78d, type: 3}
       propertyPath: m_StageSpriteList.Array.size
       value: 3
@@ -592,6 +616,22 @@ PrefabInstance:
       propertyPath: m_StageSpriteList.Array.size
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 7978590584672294638, guid: 0269e8667b7013a4a916db497790e78d, type: 3}
+      propertyPath: m_Type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7978590584672294638, guid: 0269e8667b7013a4a916db497790e78d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -823380279, guid: f5183b4a66cfb4d48b16c3934480141e, type: 3}
+    - target: {fileID: 8553102387001603612, guid: 0269e8667b7013a4a916db497790e78d, type: 3}
+      propertyPath: m_Type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8553102387001603612, guid: 0269e8667b7013a4a916db497790e78d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -823380279, guid: f5183b4a66cfb4d48b16c3934480141e, type: 3}
     - target: {fileID: 9187545625860583076, guid: 0269e8667b7013a4a916db497790e78d, type: 3}
       propertyPath: m_StagePosList.Array.size
       value: 3
