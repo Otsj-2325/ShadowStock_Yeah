@@ -93,7 +93,7 @@ public class SCR_ChangeUIScript : MonoBehaviour
     //Ÿ‚ÌUIØ‚è‘Ö‚¦
     public void Next()
     {
-
+        SCR_SoundManager.instance.PlaySE(SE_Type.System_Decision, false, 0.5f);
         //”ñ•\¦
         if (m_UI != null) m_UI.SetActive(false);
 
@@ -119,6 +119,7 @@ public class SCR_ChangeUIScript : MonoBehaviour
     }
     public void Pause()
     {
+        SCR_SoundManager.instance.PlaySE(SE_Type.System_Pose);
         //”ñ•\¦
         if(m_UI != null) m_UI.SetActive(false);
 

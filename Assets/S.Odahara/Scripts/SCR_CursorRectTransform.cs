@@ -26,6 +26,8 @@ public class SCR_CursorRectTransform : MonoBehaviour
 
     void Start()
     {
+        SCR_SoundManager.instance.PlayBGM(BGM_Type.TITLE);
+        SCR_SoundManager.instance.SetVolumeBGM(0.8f);
         transform.position = m_PositionList[0].position + offset;
     }
 
@@ -48,6 +50,8 @@ public class SCR_CursorRectTransform : MonoBehaviour
                     m_PosIndex = Mathf.Clamp(m_PosIndex, 0, m_PositionList.Count - 1);// 選択肢の範囲を制限
 
                     m_Time = 0.2f; //ディレイをリセット
+
+                    SCR_SoundManager.instance.PlaySE(SE_Type.System_Select, false, 0.5f);
                 }
             }
             if (!m_IsVerticalStick)
@@ -61,6 +65,7 @@ public class SCR_CursorRectTransform : MonoBehaviour
                     m_PosIndex = Mathf.Clamp(m_PosIndex, 0, m_PositionList.Count - 1);// 選択肢の範囲を制限
 
                     m_Time = 0.2f; //ディレイをリセット
+                    SCR_SoundManager.instance.PlaySE(SE_Type.System_Select, false, 0.5f);
                 }
             }
 
@@ -68,6 +73,7 @@ public class SCR_CursorRectTransform : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Return))
             {
                 m_ButtonEventList[m_PosIndex].Invoke();
+                SCR_SoundManager.instance.PlaySE(SE_Type.System_Decision, false, 0.5f);
             }
 
 
@@ -87,6 +93,7 @@ public class SCR_CursorRectTransform : MonoBehaviour
                         m_PosIndex = Mathf.Clamp(m_PosIndex, 0, m_PositionList.Count - 1);// 選択肢の範囲を制限
 
                         m_Time = 0.2f; //ディレイをリセット
+                        SCR_SoundManager.instance.PlaySE(SE_Type.System_Select, false, 0.5f);
                     }
                 }
                 if (!m_IsVerticalStick)
@@ -100,12 +107,14 @@ public class SCR_CursorRectTransform : MonoBehaviour
                         m_PosIndex = Mathf.Clamp(m_PosIndex, 0, m_PositionList.Count - 1);// 選択肢の範囲を制限
 
                         m_Time = 0.2f; //ディレイをリセット
+                        SCR_SoundManager.instance.PlaySE(SE_Type.System_Select, false, 0.5f);
                     }
                 }
                 // Aボタンの入力
                 if (Gamepad.current.buttonSouth.isPressed)
                 {
                     m_ButtonEventList[m_PosIndex].Invoke();
+                    SCR_SoundManager.instance.PlaySE(SE_Type.System_Decision, false, 0.5f);
                 }
             }
         }

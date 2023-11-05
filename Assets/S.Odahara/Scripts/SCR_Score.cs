@@ -12,8 +12,9 @@ public class SCR_Score : MonoBehaviour
 
     void Start()
     {
-        
-        for(int i = 0; i < m_StageNum; i++)
+        SCR_SoundManager.instance.PlayBGM(BGM_Type.SELECT);
+
+        for (int i = 0; i < m_StageNum; i++)
         {
             var scoreString = PlayerPrefs.GetString($"Stage{i + 1}Score", "---");
             var timeNum = PlayerPrefs.GetInt($"Stage{i + 1}Time", 0);

@@ -59,6 +59,7 @@ public class SCR_Sphere : MonoBehaviour
 
         cp_Rigidbody.AddForce(direction * m_KickForce, ForceMode.Impulse);
         cp_Rigidbody.AddForce(Vector3.up * m_KickForce * 2, ForceMode.Impulse);
+        SCR_EffectManager.instance.EFF_Puff(transform.position, transform.rotation);
     }
 
     //private void OnCollisionEnter(Collision collision)

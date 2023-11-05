@@ -66,6 +66,7 @@ public class SCR_StageScroll : MonoBehaviour
             {
                 if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S))//入力された場合
                 {
+                    SCR_SoundManager.instance.PlaySE(SE_Type.System_Select, false, 0.5f);
                     // レフトスティックの上下の傾きに応じて選択肢を変更
                     if (Input.GetKeyDown(KeyCode.W))
                     {
@@ -94,6 +95,7 @@ public class SCR_StageScroll : MonoBehaviour
                 // エンターキーの入力
                 if (Input.GetKeyDown(KeyCode.Return) && m_IsStageSelect)
                 {
+                    SCR_SoundManager.instance.PlaySE(SE_Type.System_Decision, false, 0.5f);
                     switch (m_PosIndex)
                     {
                         case 0:
@@ -128,6 +130,7 @@ public class SCR_StageScroll : MonoBehaviour
 
                     if (Mathf.Abs(leftStickInput.y) > m_LeftStickSensitivity)//感度を超えている場合
                     {
+                        SCR_SoundManager.instance.PlaySE(SE_Type.System_Select, false, 0.5f);
                         // レフトスティックの上下の傾きに応じて選択肢を変更
                         if (leftStickInput.y > 0)
                         {
@@ -155,6 +158,8 @@ public class SCR_StageScroll : MonoBehaviour
                     // Aボタンの入力
                     if (Gamepad.current.buttonSouth.isPressed && m_IsStageSelect)
                     {
+                        SCR_SoundManager.instance.PlaySE(SE_Type.System_Decision, false, 0.5f);
+                        SCR_SoundManager.instance.PlayBGM(BGM_Type.GAME);
                         switch (m_PosIndex)
                         {
                             case 0:

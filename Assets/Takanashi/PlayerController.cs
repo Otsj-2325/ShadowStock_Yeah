@@ -168,7 +168,9 @@ public class PlayerController : MonoBehaviour
     {
         if (m_SCR_Goal.m_IsClearflg)
         {
+            m_Velocity = Vector3.zero;
             transform.LookAt(resultCamera);
+            cp_AMC.SetBool("Result", true);
             return;
         }
         else
@@ -348,6 +350,7 @@ public class PlayerController : MonoBehaviour
             cp_AMC.SetBool("Walk", false);
             cp_AMC.SetBool("Jump", false);
             SCR_SoundManager.instance.PlaySE(SE_Type.Player_Cut);
+            m_Velocity = Vector3.zero;
         }   
     }
 
@@ -383,7 +386,8 @@ public class PlayerController : MonoBehaviour
         }
 
 
-        if (collision.gameObject.CompareTag("Ground") && m_JumpVelocity < 0.0f)
+        if (collision.gameObject.CompareTag("Ground") && m_JumpVelocity < 0.0f || 
+            collision.gameObject.CompareTag("LightingObject") && m_JumpVelocity < 0.0f)
         {
             m_JumpVelocity = 0.0f;
             cp_Rigidbody.velocity = Vector3.zero;

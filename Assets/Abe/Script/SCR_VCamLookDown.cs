@@ -16,6 +16,7 @@ public class SCR_VCamLookDown : MonoBehaviour
         if(other.gameObject.tag == "Player")
         {
             scr_VM.OneTimeVCamOn(m_VCamNum);
+            SCR_SoundManager.instance.PlaySE(SE_Type.Camera_In);
         }
     }
 
@@ -24,6 +25,7 @@ public class SCR_VCamLookDown : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             scr_VM.OnTimeVCamOff();
+            SCR_SoundManager.instance.PlaySE(SE_Type.Camera_Out);
         }
     }
 }

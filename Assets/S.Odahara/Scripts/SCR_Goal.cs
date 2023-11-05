@@ -53,7 +53,8 @@ public class SCR_Goal : MonoBehaviour
         if (collider.gameObject.CompareTag("Player"))
         {
             m_IsClearflg = true;
-            
+            SCR_SoundManager.instance.PlaySE(SE_Type.System_Goal);
+            SCR_SoundManager.instance.PlayBGM(BGM_Type.RESULT);
         }
     }
 
