@@ -479,6 +479,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1154827360 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2434817135763035608, guid: 0269e8667b7013a4a916db497790e78d, type: 3}
+  m_PrefabInstance: {fileID: 3782074374953699435}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3782074374953699435
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -487,9 +492,37 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 49492603}
     m_Modifications:
+    - target: {fileID: 674264991093413774, guid: 0269e8667b7013a4a916db497790e78d, type: 3}
+      propertyPath: m_Type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 674264991093413774, guid: 0269e8667b7013a4a916db497790e78d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -823380279, guid: f5183b4a66cfb4d48b16c3934480141e, type: 3}
+    - target: {fileID: 1990297344866986467, guid: 0269e8667b7013a4a916db497790e78d, type: 3}
+      propertyPath: m_Type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1990297344866986467, guid: 0269e8667b7013a4a916db497790e78d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -823380279, guid: f5183b4a66cfb4d48b16c3934480141e, type: 3}
     - target: {fileID: 2434817135763035608, guid: 0269e8667b7013a4a916db497790e78d, type: 3}
       propertyPath: m_Name
       value: StageSelect
+      objectReference: {fileID: 0}
+    - target: {fileID: 2564158951873423991, guid: 0269e8667b7013a4a916db497790e78d, type: 3}
+      propertyPath: m_Type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2564158951873423991, guid: 0269e8667b7013a4a916db497790e78d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -823380279, guid: f5183b4a66cfb4d48b16c3934480141e, type: 3}
+    - target: {fileID: 2753578608431939066, guid: 0269e8667b7013a4a916db497790e78d, type: 3}
+      propertyPath: m_StageSpriteList.Array.size
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2838447116664848180, guid: 0269e8667b7013a4a916db497790e78d, type: 3}
       propertyPath: m_Name
@@ -575,16 +608,69 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7942088906154726967, guid: 0269e8667b7013a4a916db497790e78d, type: 3}
+      propertyPath: m_PosIndex
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7942088906154726967, guid: 0269e8667b7013a4a916db497790e78d, type: 3}
+      propertyPath: m_StageSpriteList.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7978590584672294638, guid: 0269e8667b7013a4a916db497790e78d, type: 3}
+      propertyPath: m_Type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7978590584672294638, guid: 0269e8667b7013a4a916db497790e78d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -823380279, guid: f5183b4a66cfb4d48b16c3934480141e, type: 3}
+    - target: {fileID: 8553102387001603612, guid: 0269e8667b7013a4a916db497790e78d, type: 3}
+      propertyPath: m_Type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8553102387001603612, guid: 0269e8667b7013a4a916db497790e78d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -823380279, guid: f5183b4a66cfb4d48b16c3934480141e, type: 3}
+    - target: {fileID: 9187545625860583076, guid: 0269e8667b7013a4a916db497790e78d, type: 3}
+      propertyPath: m_StagePosList.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9187545625860583076, guid: 0269e8667b7013a4a916db497790e78d, type: 3}
+      propertyPath: m_StageScoreList.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9187545625860583076, guid: 0269e8667b7013a4a916db497790e78d, type: 3}
+      propertyPath: m_StageSpriteList.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2434817135763035608, guid: 0269e8667b7013a4a916db497790e78d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3782074374953699437}
   m_SourcePrefab: {fileID: 100100000, guid: 0269e8667b7013a4a916db497790e78d, type: 3}
 --- !u!224 &3782074374953699436 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7553867456377015250, guid: 0269e8667b7013a4a916db497790e78d, type: 3}
   m_PrefabInstance: {fileID: 3782074374953699435}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3782074374953699437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1154827360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ad511e6a5f927041866a07009eb2d87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ScoreTexts: []
+  m_StageNum: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

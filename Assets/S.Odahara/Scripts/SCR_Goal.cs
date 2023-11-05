@@ -5,8 +5,11 @@ using UnityEngine;
 
 public class SCR_Goal : MonoBehaviour
 {
+    [Header("Clockのobject")]
     [SerializeField] SCR_Clock scr_Clock = default!;
+    [Header("Resultのobject")]
     [SerializeField] private GameObject m_Result = default!;
+    [Header("Resultのobjectの中にあるScoreを0からS→Dの順番で入れる")]
     [SerializeField] private GameObject[] m_ResultScoreArray = default!;
     [Header("スコアS判定時間（かかった時間）")]
     [SerializeField] private int m_scoreSTime = default!;
@@ -45,9 +48,9 @@ public class SCR_Goal : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collider)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collider.gameObject.CompareTag("Player"))
         {
             m_IsClearflg = true;
             

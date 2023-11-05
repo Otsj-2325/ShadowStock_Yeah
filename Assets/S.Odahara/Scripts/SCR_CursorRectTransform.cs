@@ -14,6 +14,9 @@ public class SCR_CursorRectTransform : MonoBehaviour
     [Header("上下にスティックを動かすか（左スティックのみ対応）") ]
     [SerializeField] bool m_IsVerticalStick;
 
+    [Header("transform オフセット")]
+    [SerializeField] Vector3 offset = default;
+
     private int m_PosIndex = 0;
     private float m_Delaytime = 0.4f;
     private float m_Time = 0.0f;
@@ -23,7 +26,7 @@ public class SCR_CursorRectTransform : MonoBehaviour
 
     void Start()
     {
-        transform.position = m_PositionList[0].position;
+        transform.position = m_PositionList[0].position + offset;
     }
 
     void Update()
@@ -31,7 +34,7 @@ public class SCR_CursorRectTransform : MonoBehaviour
         m_Time += Time.unscaledDeltaTime;
         if (m_Time > m_Delaytime)
         {
-            transform.position = m_PositionList[m_PosIndex].position;
+            transform.position = m_PositionList[m_PosIndex].position + offset;
 
             //キーボード処理
             if (m_IsVerticalStick)

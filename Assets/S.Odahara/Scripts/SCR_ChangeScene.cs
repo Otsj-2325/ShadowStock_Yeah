@@ -29,9 +29,7 @@ public class SCR_ChangeScene : MonoBehaviour
     [SerializeField] float m_FadeOutTime = 0.4f;
 
     public static string loadAfterScene;
-
-
-    private float m_time = 0.0f;
+    public static string loadBeforeScene;
 
     // Start is called before the first frame update
     void Start()
@@ -84,7 +82,8 @@ public class SCR_ChangeScene : MonoBehaviour
 
     //シーン切り替え
     public void NextScene()
-    {        
+    {
+
         //ロード後のシーン
         loadAfterScene = nextScene;
         if (m_IsLoadflg) SCR_FadeManager.FadeOut("LoadScene", m_FadeOutColor, m_FadeOutTime);
@@ -110,6 +109,13 @@ public class SCR_ChangeScene : MonoBehaviour
     public void Change(string scenename)
     {
         Time.timeScale = 1f;
+
+        if(scenename == "GameOverScene")
+        {
+            //ロード前のシーン
+            loadBeforeScene = SceneManager.GetActiveScene().name;
+        }
+
         if (m_IsDelayFlag)
         {
             nextScene = scenename;

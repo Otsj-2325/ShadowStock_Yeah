@@ -17,7 +17,14 @@ public class SCR_StageScroll : MonoBehaviour
 
     [SerializeField] private Image ScoreImage;
 
-    private float m_Delaytime = 0.4f;
+    [Header("キーボード操作のdelaytime")]
+    [SerializeField] private float m_KeyBoardDelaytime = 0.4f;
+    [Header("コントローラー操作のdelaytime")]
+    [SerializeField] private float m_ControllerDelaytime = 1.0f;
+
+    // レフトスティックの入力による選択の制約
+    private float m_LeftStickSensitivity = 0.99f; // レフトスティックの感度（値を大きくすると感度が下がる）
+
     private float m_Time = 0.0f;
 
     private int m_OldPosIndex = 0;
@@ -29,8 +36,7 @@ public class SCR_StageScroll : MonoBehaviour
     private SCR_ChangeScene scr_ChangeScene;
     //private SCR_StageSelectAnime scr_StageSelectAnime;
 
-    // レフトスティックの入力による選択の制約
-    private float m_LeftStickSensitivity = 0.9f; // レフトスティックの感度（値を大きくすると感度が下がる）
+
 
     void Start()
     {
@@ -56,7 +62,7 @@ public class SCR_StageScroll : MonoBehaviour
 
             }
 
-            if (m_Time > m_Delaytime)
+            if (m_Time > m_KeyBoardDelaytime)
             {
                 if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S))//入力された場合
                 {
@@ -73,7 +79,7 @@ public class SCR_StageScroll : MonoBehaviour
                     }
 
 
-                    m_Time = m_Delaytime; //ディレイをリセット
+                    m_Time = m_KeyBoardDelaytime - 0.2f; //ディレイをリセット
                     if (m_IsStageSelect)
                     {
                         m_StageScoreList[m_OldPosIndex].SetActive(false);
@@ -109,8 +115,10 @@ public class SCR_StageScroll : MonoBehaviour
                             break;
                     }
                 }
+            }
 
-
+            if (m_Time > m_ControllerDelaytime)
+            {
                 //ゲームパッド処理
                 if (Gamepad.current == null) { return; }
                 else
@@ -134,7 +142,7 @@ public class SCR_StageScroll : MonoBehaviour
                         }
 
 
-                        m_Time = m_Delaytime; //ディレイをリセット
+                        m_Time = 0.0f; //ディレイをリセット
                         image.sprite = m_StageSpriteList[m_PosIndex];
                         if (m_IsStageSelect)
                         {
