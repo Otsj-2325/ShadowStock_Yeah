@@ -99,6 +99,7 @@ public class MeshObj : MonoBehaviour
                     actionCreatePlayer?.Invoke();
                     actionCreatePlayerShadow?.Invoke();
                     nowState = STATE.CREATED;
+                    SCR_EffectManager.instance.EFF_Paste(transform.position, transform.rotation);
                     return;
                 }
 

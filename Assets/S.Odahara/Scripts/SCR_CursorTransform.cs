@@ -21,12 +21,15 @@ public class SCR_CursorTransform : MonoBehaviour
     [SerializeField] private float m_Delaytime = 0.4f;
     [SerializeField] private float m_Time = 0.0f;
 
+    private bool isEnter = false;
+
     // レフトスティックの入力による選択の制約
     private float m_LeftStickSensitivity = 0.99f; // レフトスティックの感度（値を大きくすると感度が下がる）
 
     void Start()
     {
         transform.position = m_PositionList[0].position + offset;
+        isEnter = true;
     }
 
     void Update()
@@ -110,7 +113,11 @@ public class SCR_CursorTransform : MonoBehaviour
                 // Aボタンの入力
                 if (Gamepad.current.buttonSouth.isPressed)
                 {
-                    SCR_SoundManager.instance.PlaySE(SE_Type.System_Decision);
+                    if (!isEnter)
+                    {
+                        SCR_SoundManager.instance.PlaySE(SE_Type.System_Decision, false, 0.5f);
+                        isEnter = true;
+                    }
                     m_ButtonEventList[m_PosIndex].Invoke();
                 }
             }
