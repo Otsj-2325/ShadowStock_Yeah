@@ -38,7 +38,7 @@ public class SCR_Goal : MonoBehaviour
         //デバッグ用
         if(m_IsClearflg)
         {
-            scr_VCamManager.SwitchVCam(3);
+            scr_VCamManager.SwitchVCam(scr_VCamManager.m_VCamList.Count - 1) ;
             SCR_GameManager.SaveScore(scr_Clock.cullentScoreTime, JudgeScore(scr_Clock.cullentScoreTime));
             m_Result.SetActive(true);
             for (int i = 0; i < m_ResultScoreArray.Length; i++)
@@ -55,6 +55,7 @@ public class SCR_Goal : MonoBehaviour
             m_IsClearflg = true;
             SCR_SoundManager.instance.PlaySE(SE_Type.System_Goal);
             SCR_SoundManager.instance.PlayBGM(BGM_Type.RESULT);
+            SCR_EffectManager.instance.EFF_Goal(transform.position, transform.rotation);
         }
     }
 

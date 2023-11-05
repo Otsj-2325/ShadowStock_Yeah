@@ -7,7 +7,7 @@ public class SCR_Box : MonoBehaviour
     public Rigidbody cp_Rigidbody;
     public bool m_IsKick;
     public int m_IsKickCount;
-    [SerializeField]private GameObject m_PlayerObj;
+    private GameObject m_PlayerObj;
     [SerializeField] private GameObject m_KickPower;
 
     // Start is called before the first frame update
@@ -15,6 +15,8 @@ public class SCR_Box : MonoBehaviour
     {
         m_IsKick = false;
         m_IsKickCount = 0;
+
+        m_PlayerObj = FindObjectOfType<PlayerController>().gameObject;
 
         // ‚±‚±
         GameObject childObject = gameObject.transform.GetChild(0).gameObject;

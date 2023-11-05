@@ -271,7 +271,7 @@ public class PlayerController : MonoBehaviour
         }
 
         if (m_isKnockBack) cp_Rigidbody.velocity += new Vector3(0.0f, Physics.gravity.y * Time.deltaTime, 0.0f);
-        else { m_JumpVelocity += Physics.gravity.y * Time.deltaTime * m_FallMultiplier; }
+        else { m_JumpVelocity += Physics.gravity.y * Time.deltaTime * 2 ; }
 
         PlayerMove(m_Speed * speedJump, speedKeyborad * speedJump);
     }

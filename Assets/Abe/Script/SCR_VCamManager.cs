@@ -8,7 +8,7 @@ public class SCR_VCamManager : MonoBehaviour
     public static SCR_VCamManager instance = null;
 
     [SerializeField] [Header("0:見下ろしVCam　1:スタートVCam")] 
-    private List<CinemachineVirtualCamera> m_VCamList = new List<CinemachineVirtualCamera>();
+    public List<CinemachineVirtualCamera> m_VCamList = new List<CinemachineVirtualCamera>();
 
     private int m_NowVCam = 1;
 
@@ -36,7 +36,7 @@ public class SCR_VCamManager : MonoBehaviour
         {
             cam.Priority = 0;
         }
-
+        Debug.Log("Switch" + num);
         m_VCamList[m_NowVCam].Priority = 10;
     }
 

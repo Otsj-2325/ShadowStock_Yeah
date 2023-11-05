@@ -36,7 +36,6 @@ public class SCR_TuraraFall : MonoBehaviour
             //Debug.Log("è∞Ç…ìñÇΩÇ¡ÇΩÇ©ÇÁè¡Ç∑ÇÊ");
             //Destroy(this.gameObject, 0.1f);
             SCR_EffectManager.instance.EFF_Rock(transform.position, transform.rotation);
-            SCR_SoundManager.instance.PlaySE(SE_Type.Gimmick_Rubble);
         }
         if (collider.gameObject.tag == ("Player"))
         {
