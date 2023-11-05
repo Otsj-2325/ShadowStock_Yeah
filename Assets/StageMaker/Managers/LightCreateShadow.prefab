@@ -42,7 +42,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3675264314783846686}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 0}
 --- !u!23 &6544562958347101855
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -125,3 +125,4 @@ MonoBehaviour:
   groundManager: {fileID: 0}
   newMeshObjWalls: []
   newMeshObjMaterial: {fileID: 2100000, guid: 2b3cdb598cc17e945aa8307e0929c7c0, type: 2}
+  externalInput: 0
