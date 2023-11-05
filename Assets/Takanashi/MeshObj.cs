@@ -116,7 +116,7 @@ public class MeshObj : MonoBehaviour
                         velocity.z = speedController * leftStick.y;
                     }
 
-                    rigidBody.AddForce(velocity);
+                    rigidBody.velocity = velocity;
                 }
 
                 // キーボード

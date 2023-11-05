@@ -29,12 +29,17 @@ public class PlayerCreateShadowMulti : MonoBehaviour
     [Header("生成したオブジェクトのマテリアル")]
     [SerializeField] private Material newMeshObjMaterial;
 
+    [Header("外部入力処理")]
+    [SerializeField] private bool externalInput;
+        
     private GameObject playerFlameLeft;
     private GameObject playerFlameRight;
     private GameObject playerFlameUp;
     private GameObject playerFlameDown;
 
     private bool canCreate = true;
+
+    private bool startProc = false;
 
     // 影と当たった枠の種類
     private enum CollitedPlayerFlame
@@ -172,17 +177,27 @@ public class PlayerCreateShadowMulti : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        // 影生成するか否か
-        if (Gamepad.current == null)
+        if(!externalInput)
         {
-            // Rキーを押したら影の形からオブジェクトを生成
-            if (!Input.GetKeyDown(KeyCode.R)) return;
+            // 影生成するか否か
+            if (Gamepad.current == null)
+            {
+                // Rキーを押したら影の形からオブジェクトを生成
+                if (!Input.GetKeyDown(KeyCode.R)) return;
+            }
+            else
+            {
+                // Rキーかパッドの右ボタンを押したら影の形からオブジェクトを生成
+                if (!Gamepad.current.rightTrigger.isPressed &&
+                    !Input.GetKeyDown(KeyCode.R)) return;
+            }
         }
         else
         {
-            // Rキーかパッドの右ボタンを押したら影の形からオブジェクトを生成
-            if (!Gamepad.current.rightTrigger.isPressed &&
-                !Input.GetKeyDown(KeyCode.R)) return;
+            if (!startProc)
+            {
+                return;
+            }
         }
 
         if (!canCreate) return;
@@ -958,5 +973,15 @@ public class PlayerCreateShadowMulti : MonoBehaviour
         triangles[(((vertexNum - 1) * 2 - 2) + (vertexNum - 1) * 2 + 1) * 3 + 2] = vertexNum + vertexNum - 1;
 
         return triangles;
+    }
+
+    //外部で影生成の入力を受け取るときにこれを呼ぶ
+    public bool SetStartProc(){
+        if(!startProc){
+            startProc = true;
+            return true;
+        }
+
+        return false;
     }
 }
