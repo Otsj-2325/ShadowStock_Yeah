@@ -83,6 +83,7 @@ public class MeshObj : MonoBehaviour
             case STATE.CREATE_PREPARE:
                 bool create = false;
                 if (Input.GetKeyDown(KeyCode.R)) create = true;
+                if (Gamepad.current.buttonNorth.isPressed) create = true;
 
                 if (create)
                 {
@@ -115,6 +116,19 @@ public class MeshObj : MonoBehaviour
                     {
                         velocity.z = speedController * leftStick.y;
                     }
+                    if(Gamepad.current.leftShoulder.isPressed){
+                        velocity.y = speedController * 1.0f;
+                    }
+                    if (Gamepad.current.rightShoulder.isPressed)
+                    {
+                        velocity.y = speedController * -1.0f;
+                    }
+
+                    Vector3 rotVal = Gamepad.current.dpad.ReadValue();
+
+                    transform.eulerAngles += rotVal * 3.0f;
+
+                    transform.localScale = new Vector3(2.0f, 2.0f, 2.0f);
 
                     rigidBody.velocity = velocity;
                 }
@@ -165,6 +179,7 @@ public class MeshObj : MonoBehaviour
                 transform.position = new Vector3(x, transform.position.y, z);
                 break;
             case STATE.CREATED:
+                
                 break;
             default:
                 break;

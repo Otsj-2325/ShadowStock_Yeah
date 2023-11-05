@@ -985,4 +985,8 @@ public class PlayerCreateShadowMulti : MonoBehaviour
 
         return false;
     }
+
+    private void SetFinProc(){
+        startProc = false;
+    } 
 }
