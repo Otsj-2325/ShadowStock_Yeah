@@ -394,6 +394,7 @@ public class PlayerCreateShadowMulti : MonoBehaviour
         meshObj.wallObjects = newMeshObjWalls;
 
         canCreate = false;
+        startProc = false;
 
         // 今回使ったデータのリセット
         foreach (int tempIndex in index)
