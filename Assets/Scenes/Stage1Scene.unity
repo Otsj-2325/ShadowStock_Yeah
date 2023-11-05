@@ -422,7 +422,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4032509750108667986, guid: ce1ae49a44145cc458af9586f1c2882a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4.5
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4032509750108667986, guid: ce1ae49a44145cc458af9586f1c2882a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -897,6 +897,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1621ff968fcb76478310d39bb0b5e58, type: 3}
+--- !u!114 &137345685 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 685147648539947105, guid: ebc1243c7b70d614d91f653d595cf6d3, type: 3}
+  m_PrefabInstance: {fileID: 1844420606}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81e8ac270c3ac64438418a4792113136, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &145252373
 GameObject:
   m_ObjectHideFlags: 0
@@ -1072,7 +1083,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4032509750108667986, guid: ce1ae49a44145cc458af9586f1c2882a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -21.5
+      value: -20
       objectReference: {fileID: 0}
     - target: {fileID: 4032509750108667986, guid: ce1ae49a44145cc458af9586f1c2882a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1080,7 +1091,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4032509750108667986, guid: ce1ae49a44145cc458af9586f1c2882a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4.5
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4032509750108667986, guid: ce1ae49a44145cc458af9586f1c2882a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -8694,6 +8705,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: LightCreateShadow
       objectReference: {fileID: 0}
+    - target: {fileID: 4800436623902428925, guid: 0811c5431a4251b40adc5b2aae18b0a0, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 547617123}
+    - target: {fileID: 4800436623902428925, guid: 0811c5431a4251b40adc5b2aae18b0a0, type: 3}
+      propertyPath: groundManager
+      value: 
+      objectReference: {fileID: 137345685}
+    - target: {fileID: 4800436623902428925, guid: 0811c5431a4251b40adc5b2aae18b0a0, type: 3}
+      propertyPath: deleteFloorObj
+      value: 
+      objectReference: {fileID: 708687787}
     - target: {fileID: 7665566111952902825, guid: 0811c5431a4251b40adc5b2aae18b0a0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
