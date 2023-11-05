@@ -109,6 +109,7 @@ public class WarpManager : MonoBehaviour
                 // フレームオブジェクト移動
                 Destroy(frameObjNow);
                 frameObjNow = Instantiate(frameObj);
+                Debug.Log("Create New Frame Object");
                 frameObjNow.wallManager = _wallManager;
                 frameObjNow.transform.position = framePosition[i / 2 + 1];
 

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System;
-using UnityEngine.iOS;
 
 [RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(MeshFilter))]
@@ -383,6 +382,7 @@ public class PlayerCreateShadowMulti : MonoBehaviour
         tmpPos.y += 1.5f;
         newMeshObject.transform.position = tmpPos;
         SCR_EffectManager.instance.EFF_Cut(newMeshObject.transform.position, newMeshObject.transform.rotation);
+        newMeshObject.tag = "Ground";
 
         player.CreateNewMeshObjFromShadow();
 
