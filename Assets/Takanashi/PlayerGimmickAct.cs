@@ -41,6 +41,8 @@ public class PlayerGimmickAct : MonoBehaviour
         if (other.gameObject.GetComponent<IFCGimmck>() != null)
         {
             other.gameObject.GetComponent<IFCGimmck>().GimmckAct();
+            SCR_SoundManager.instance.PlaySE(SE_Type.Player_Kick);
+            SCR_EffectManager.instance.EFF_Kick(transform.position, transform.rotation);
         }
     }
 }

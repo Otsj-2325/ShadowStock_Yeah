@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 public class SCR_PyonManager : MonoBehaviour, IFCGimmck
 {
     public enum STATE {//PyonState
@@ -51,6 +51,7 @@ public class SCR_PyonManager : MonoBehaviour, IFCGimmck
     private Animator m_Anim = null;
     private Rigidbody cp_Rb = null;
     private Vector3 m_Velocity;
+    private Action<Transform> m_PlayerMethod;
 
     private bool m_IsFind = false;
     private bool m_IsKnockBack = false;
@@ -195,7 +196,6 @@ public class SCR_PyonManager : MonoBehaviour, IFCGimmck
             if (m_lapseTimer > 1.0f)//ˆê•bŒo‰ß
             {
                 m_IsFind = false;
-                m_IsKnockBack = false;
                 m_Anim.SetBool("KnockBack", false);
                 m_State = STATE.Patrol;
             }
