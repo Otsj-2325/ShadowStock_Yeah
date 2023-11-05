@@ -283,7 +283,7 @@ MonoBehaviour:
   m_KickTime: 0.5
   m_LapseKickTime: 0.25
   scr_PCS: {fileID: 0}
-  m_JumpPower: 9
+  m_JumpPower: 12.5
   m_JumpVelocity: 0
   m_IsJumping: 0
   m_CanKick: 1

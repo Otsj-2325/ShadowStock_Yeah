@@ -125,7 +125,7 @@ public class SCR_PyonManager : MonoBehaviour, IFCGimmck
                 m_lapseTimer = 0.0f;
                 m_JumpTimer = 0.0f;
 
-                SCR_SoundManager.instance.PlaySE(SE_Type.PYON_Jump);//SE再生
+                SCR_SoundManager.instance.PlaySE(SE_Type.PYON_Jump, false, 0.5f);//SE再生
 
                 //通常ジャンプの場合このタイミングで跳躍
                 if (!UseCurveJump) { cp_Rb.velocity = (transform.forward * m_MoveSpeed) + new Vector3(0.0f, m_JumpPower, 0.0f); }
@@ -160,7 +160,7 @@ public class SCR_PyonManager : MonoBehaviour, IFCGimmck
                 m_lapseTimer = 0.0f;
                 m_JumpTimer = 0.0f;
 
-                SCR_SoundManager.instance.PlaySE(SE_Type.PYON_Jump);//SE再生
+                SCR_SoundManager.instance.PlaySE(SE_Type.PYON_Jump, false, 0.5f);//SE再生
 
                 //通常ジャンプの場合このタイミングで跳躍
                 if (!UseCurveJump) { cp_Rb.velocity = (transform.forward * m_MoveSpeed) + new Vector3(0.0f, m_JumpPower, 0.0f); }
@@ -252,7 +252,7 @@ public class SCR_PyonManager : MonoBehaviour, IFCGimmck
             m_Anim.SetBool("KnockBack", false);
             m_Anim.SetBool("Landing", true);
 
-            SCR_SoundManager.instance.PlaySE(SE_Type.PYON_Landing);//SE再生
+            SCR_SoundManager.instance.PlaySE(SE_Type.PYON_Landing, false, 0.5f);//SE再生
         }
 
         if (collision.gameObject.CompareTag("Player"))

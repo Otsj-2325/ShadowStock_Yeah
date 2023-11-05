@@ -88,7 +88,7 @@ public class SCR_Box : MonoBehaviour
         // キックするオブジェクトの中心点との差を求める
         Vector3 direction = transform.position - m_PlayerObj.transform.position;
         // y軸方向を無視して正規化
-        direction.y = 0;
+        direction.y = 5;
         direction.Normalize();
 
 

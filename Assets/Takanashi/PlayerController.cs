@@ -69,7 +69,7 @@ public class PlayerController : MonoBehaviour
     // 地面から離れた際の処理の変数
     private Vector3 leaveGroundPosition;    // 地面から離れた時の座標
     private Vector3 beforePosition;         // 数フレーム前の座標
-    private int beforeFrameNum = 10;        // 上のフレーム数の調整
+    private int beforeFrameNum = 25;        // 上のフレーム数の調整
     private int frameCount;
 
     private Action warp;
