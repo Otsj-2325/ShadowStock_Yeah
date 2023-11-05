@@ -27,4 +27,11 @@ public class SCR_LightBaseCol : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == "Player"){
+            m_FallFlag = true;
+        }
+    }
+
 }

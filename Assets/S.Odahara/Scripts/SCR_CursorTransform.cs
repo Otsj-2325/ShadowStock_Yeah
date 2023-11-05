@@ -41,6 +41,7 @@ public class SCR_CursorTransform : MonoBehaviour
             {
                 if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S))//入力された場合
                 {
+                    SCR_SoundManager.instance.PlaySE(SE_Type.System_Decision);
                     // レフトスティックの上下の傾きに応じて選択肢を変更
                     if (Input.GetKeyDown(KeyCode.W)) m_PosIndex += -1;
                     else if (Input.GetKeyDown(KeyCode.S)) m_PosIndex += 1;
@@ -54,6 +55,7 @@ public class SCR_CursorTransform : MonoBehaviour
             {
                 if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))//入力された場合
                 {
+                    SCR_SoundManager.instance.PlaySE(SE_Type.System_Decision);
                     // レフトスティックの左右の傾きに応じて選択肢を変更
                     if (Input.GetKeyDown(KeyCode.D)) m_PosIndex += 1;
                     else if (Input.GetKeyDown(KeyCode.A)) m_PosIndex += -1;
@@ -67,6 +69,7 @@ public class SCR_CursorTransform : MonoBehaviour
             // エンターキーの入力
             if (Input.GetKeyDown(KeyCode.Return))
             {
+                SCR_SoundManager.instance.PlaySE(SE_Type.System_Decision);
                 m_ButtonEventList[m_PosIndex].Invoke();
             }
 
@@ -80,6 +83,7 @@ public class SCR_CursorTransform : MonoBehaviour
                 {
                     if (Mathf.Abs(leftStickInput.y) > m_LeftStickSensitivity)//感度を超えている場合
                     {
+                        SCR_SoundManager.instance.PlaySE(SE_Type.System_Decision);
                         // レフトスティックの上下の傾きに応じて選択肢を変更
                         if (leftStickInput.y > 0) m_PosIndex += -1;
                         else if (leftStickInput.y < 0) m_PosIndex += 1;
@@ -93,6 +97,7 @@ public class SCR_CursorTransform : MonoBehaviour
                 {
                     if (Mathf.Abs(leftStickInput.x) > m_LeftStickSensitivity)//感度を超えている場合
                     {
+                        SCR_SoundManager.instance.PlaySE(SE_Type.System_Decision);
                         // レフトスティックの左右の傾きに応じて選択肢を変更
                         if (leftStickInput.x > 0) m_PosIndex += 1;
                         else if (leftStickInput.x < 0) m_PosIndex += -1;
@@ -105,6 +110,7 @@ public class SCR_CursorTransform : MonoBehaviour
                 // Aボタンの入力
                 if (Gamepad.current.buttonSouth.isPressed)
                 {
+                    SCR_SoundManager.instance.PlaySE(SE_Type.System_Decision);
                     m_ButtonEventList[m_PosIndex].Invoke();
                 }
             }

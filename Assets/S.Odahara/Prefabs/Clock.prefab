@@ -339,7 +339,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: 300s
 --- !u!1 &8444395698284894184
 GameObject:
   m_ObjectHideFlags: 0
@@ -397,7 +397,6 @@ MonoBehaviour:
   timerImage: {fileID: 2191789110768313473}
   clockHand: {fileID: 701521208922956271}
   timerText: {fileID: 7318369381781195416}
-  scr_ChangeScene: {fileID: 8745523367839916972}
   scr_Goal: {fileID: 0}
   countdown: 0
   stageTime: 100

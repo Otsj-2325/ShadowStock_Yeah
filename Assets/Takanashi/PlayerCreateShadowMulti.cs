@@ -372,15 +372,17 @@ public class PlayerCreateShadowMulti : MonoBehaviour
 
         GameObject newMeshObject = new GameObject("NewMeshObject");
 
+
         //MeshFilterはshredMeshをMeshRendererに引き渡す。
         MeshFilter mfilter = newMeshObject.AddComponent<MeshFilter>();
         mfilter.mesh = new_mesh;
 
         // 必要な位置に変更する
-        Vector3 groundScale;
-        Vector3 tmpPos = groundManager.GetGroundPosition(newMeshObject.transform.position, out groundScale);
-        tmpPos.y += 0.5f + groundScale.y / 2;
+        Vector3 tmpPos = player.gameObject.transform.position;
+        tmpPos += player.gameObject.transform.forward * 3.0f;
+        tmpPos.y += 1.5f;
         newMeshObject.transform.position = tmpPos;
+        SCR_EffectManager.instance.EFF_Cut(newMeshObject.transform.position, newMeshObject.transform.rotation);
 
         player.CreateNewMeshObjFromShadow();
 
