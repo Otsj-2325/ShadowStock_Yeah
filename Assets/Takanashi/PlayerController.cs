@@ -43,6 +43,9 @@ public class PlayerController : MonoBehaviour
     [Header("キック無効秒数")]
     [SerializeField] private float m_LapseKickTime = 0.25f;
 
+
+    [SerializeField] PlayerCreateShadowMulti scr_PCS;
+
     private GameObject m_GimmickAct;
 
     private float m_LapseTimer = 0.0f;
@@ -200,6 +203,7 @@ public class PlayerController : MonoBehaviour
             }
 
             KickProc();
+            CutProc();
 
             // beforeFrameNum数のフレーム前の座標を取得
             if (++frameCount > beforeFrameNum)
@@ -271,6 +275,7 @@ public class PlayerController : MonoBehaviour
     private void KickProc()
     {
         if (m_isKnockBack) return;
+        if (isCreateNewMeshObj) return;
 
         if (m_CanKick)
         {
@@ -315,6 +320,25 @@ public class PlayerController : MonoBehaviour
                 m_CanKick = true;
             }
         }        
+    }
+
+    private void CutProc()
+    {
+        if (m_isKnockBack) return;
+        if (isCreateNewMeshObj) return;
+
+        if (Gamepad.current == null)
+        {
+            // Rキーを押したら影の形からオブジェクトを生成
+            if (!Input.GetKeyDown(KeyCode.R)) return;
+        }
+        else
+        {
+            // Rキーかパッドの右ボタンを押したら影の形からオブジェクトを生成
+            if (!Gamepad.current.rightTrigger.isPressed &&
+                !Input.GetKeyDown(KeyCode.R)) return;
+        }
+        scr_PCS.SetStartProc();
     }
 
     private void LapseProc()
