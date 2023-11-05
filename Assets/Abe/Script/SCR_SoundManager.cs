@@ -8,7 +8,7 @@ public enum BGM_Type
     SELECT,
     GAME,
     RESULT,
-    SILENCE//àÍâûñ≥âπóp
+    //SILENCE//àÍâûñ≥âπóp
 }
 
 public enum SE_Type
@@ -97,11 +97,11 @@ public class SCR_SoundManager : MonoBehaviour
     public void PlayBGM(BGM_Type bgmType, bool loopFlg = true)
     {
         // BGMÇ»ÇµÇÃèÛë‘Ç…Ç∑ÇÈèÍçá            
-        if (bgmType == BGM_Type.SILENCE)
-        {
-            StopAllBGM();
-            return;
-        }
+        //if (bgmType == BGM_Type.SILENCE)
+        //{
+        //    StopAllBGM();
+        //    return;
+        //}
 
         int index = (int)bgmType;
 

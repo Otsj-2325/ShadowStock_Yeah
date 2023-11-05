@@ -143,6 +143,12 @@ public class PlayerController : MonoBehaviour
         SCR_EffectManager.instance.EFF_KnockBack(transform.position + new Vector3(0.0f, transform.localScale.y, 0.0f), transform.rotation);
         stateNow = STATE.AIR;
     }
+
+    private void Awake()
+    {
+        SCR_SoundManager.instance.PlayBGM(BGM_Type.GAME);
+    }
+
     // Start is called before the first frame update
     void Start()
     {

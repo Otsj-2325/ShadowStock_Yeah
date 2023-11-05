@@ -45,8 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_CrossFadeTime: 2
-  m_BgmVolume: 1
-  m_SeVolume: 1
+  m_BgmVolume: 0.5
   m_BgmClips:
   - {fileID: 8300000, guid: f7c7e338bfa266e41a23abfec75556b6, type: 3}
   - {fileID: 8300000, guid: 7d61ded35711c4f418fa500eef03e4c6, type: 3}
