@@ -108,6 +108,8 @@ public class PlayerController : MonoBehaviour
     public void CreateEndNewMeshObjFromShadow()
     {
         isCreateNewMeshObj = false;
+        cp_AMC.SetBool("Cut", false);
+        SCR_SoundManager.instance.PlaySE(SE_Type.Player_Paste, false ,0.4f);
     }
 
     public bool IsKnockBack() { return m_isKnockBack; }
@@ -338,7 +340,15 @@ public class PlayerController : MonoBehaviour
             if (!Gamepad.current.rightTrigger.isPressed &&
                 !Input.GetKeyDown(KeyCode.R)) return;
         }
-        scr_PCS.SetStartProc();
+
+        if (scr_PCS.SetStartProc())
+        {
+            cp_AMC.SetBool("Cut", true);
+            cp_AMC.SetBool("Special", false);
+            cp_AMC.SetBool("Walk", false);
+            cp_AMC.SetBool("Jump", false);
+            SCR_SoundManager.instance.PlaySE(SE_Type.Player_Cut);
+        }   
     }
 
     private void LapseProc()
