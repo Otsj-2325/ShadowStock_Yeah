@@ -46,10 +46,6 @@ public class SCR_SoundManager : MonoBehaviour
     [SerializeField]
     private float m_BgmVolume = 1.0f;
 
-    [Header("SEボリューム")]
-    [SerializeField]
-    private float m_SeVolume = 1.0f;
-
     [Header("TITLE→SELECT→GAME→RESULTの順で")]
     public AudioClip[] m_BgmClips;
     [Header("SE_Typeの順で")]
@@ -94,11 +90,6 @@ public class SCR_SoundManager : MonoBehaviour
         {
             m_BgmSources[0].volume = m_BgmVolume;
             m_BgmSources[1].volume = m_BgmVolume;
-        }
-
-        foreach (AudioSource s in m_SeSources)
-        {
-            s.volume = m_SeVolume;
         }
     }
 
@@ -203,7 +194,7 @@ public class SCR_SoundManager : MonoBehaviour
     /*以下SEメソッド*/
 
     // SE再生    
-    public void PlaySE(SE_Type seType)
+    public void PlaySE(SE_Type seType, bool loopFlg = false, float vol = 1.0f)
     {
         bool play = false;
         int index = (int)seType;
@@ -215,6 +206,8 @@ public class SCR_SoundManager : MonoBehaviour
             if (s.isPlaying) { continue; }
 
             s.clip = m_SeClips[index];
+            s.loop = loopFlg;
+            s.volume = vol;
             s.Play();
             play = true;
             break;
@@ -233,12 +226,15 @@ public class SCR_SoundManager : MonoBehaviour
         }
     }
 
-    //SEボリューム設定(0.0f～1.0f)
-    public void SetVolumeSE(float vol)
+    public void StopLoopSE()
     {
-        if (vol > 1.0f) { vol = 1.0f; }
-        if (vol < 0.0f) { vol = 0.0f; }
-
-        m_SeVolume = vol;
+        foreach (AudioSource s in m_SeSources)
+        {
+            if (s.loop)
+            {
+                s.Stop();
+                s.clip = null;
+            }
+        }
     }
 }

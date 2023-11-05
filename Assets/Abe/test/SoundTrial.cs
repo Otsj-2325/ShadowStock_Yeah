@@ -27,7 +27,6 @@ public class SoundTrial : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q)) { SCR_SoundManager.instance.PlaySE(SE_Type.PYON_Landing); }
         if (Input.GetKeyDown(KeyCode.W)) { SCR_SoundManager.instance.PlaySE(SE_Type.PYON_Jump); }
         if (Input.GetKeyDown(KeyCode.E)) { SCR_SoundManager.instance.PlaySE(SE_Type.KAKU_Walk); }
-        if (Input.GetKeyDown(KeyCode.UpArrow)) { Vol += 0.1f; SCR_SoundManager.instance.SetVolumeSE(Vol); }
-        if (Input.GetKeyDown(KeyCode.DownArrow)) { Vol -= 0.1f; SCR_SoundManager.instance.SetVolumeSE(Vol); }
+       
     }
 }

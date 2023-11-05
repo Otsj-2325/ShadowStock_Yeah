@@ -25,15 +25,37 @@ public class PlayerController : MonoBehaviour
     [Header("落下した後の停止時間")]
     [SerializeField] private float stopTime = 1.5f;
 
+    [Header("落下速度倍率")]
+    [SerializeField] private float m_FallMultiplier;
+
+    [Header("ノックバック力横軸")]
+    [SerializeField] private float knockBackPower;   // ノックバックさせる力
+
+    [Header("ノックバック力縦軸")]
+    [SerializeField] private float knockBackUpPower;   // ノックバックさせる力
+
+    [Header("ノックバック操作負荷秒")]
+    [SerializeField] private float m_LapseTime = 1.0f;
+
+    [Header("キック有効秒数")]
+    [SerializeField] private float m_KickTime = 0.5f;
+
+    [Header("キック無効秒数")]
+    [SerializeField] private float m_LapseKickTime = 0.25f;
+
+    private GameObject m_GimmickAct;
+
+    private float m_LapseTimer = 0.0f;
+    private float m_KickTimer = 0.0f;
+
     // ジャンプ関係
-    public float m_JumpPower;
+    [SerializeField] public float m_JumpPower;
 
     [SerializeField] private float m_JumpVelocity = 0.0f;
 
     [SerializeField] private bool m_IsJumping = false;
 
-    public float knockBackPower;   // ノックバックさせる力
-
+    private Animator cp_AMC;
 
     private Vector3 m_Velocity;
 
@@ -53,18 +75,17 @@ public class PlayerController : MonoBehaviour
     private float time;         // 落下後の停止時間測定
 
     private bool isCreateNewMeshObj = false;    // 現在影からのオブジェクト作成中か
-
+    private bool m_isKnockBack = false;
+    public bool m_CanKick = true;
     // ステートマシン
     private enum STATE
     {
         GROUND,
-        AIR
+        AIR,
+        LAPSE,
     }
     private STATE stateNow;     // 現在のステート
 
-    /*==================AbeZone====================*/
-    private SCR_GroundTrigger scr_GT;
-    /*=============================================*/
 
     public void SetWarp(Action action)
     {
@@ -86,10 +107,44 @@ public class PlayerController : MonoBehaviour
         isCreateNewMeshObj = false;
     }
 
+    public bool IsKnockBack() { return m_isKnockBack; }
+
+    public void KickAction()
+    {
+        SCR_SoundManager.instance.StopLoopSE();
+        cp_AMC.SetBool("Special", true);
+        cp_AMC.SetBool("Walk", false);
+        cp_AMC.SetBool("Jump", false);
+    }
+
+    public void KnockBack(Transform t)
+    {
+        m_JumpVelocity = -1.0f;//着地処理のためのテコ入れ
+
+        cp_Rigidbody.velocity = Vector3.zero;
+
+        // 自分の位置と接触してきたオブジェクトの位置とを計算して、距離と方向を出して正規化(速度ベクトルを算出)
+        Vector3 distination = (transform.position - t.position).normalized;
+        distination.y = 0.0f;//地面埋まり防止
+        cp_Rigidbody.velocity = (distination * knockBackPower) + new Vector3(0.0f, knockBackUpPower, 0.0f);
+
+        m_isKnockBack = true;
+        cp_AMC.SetBool("KnockBack", true);
+        cp_AMC.SetBool("Walk", false);
+        cp_AMC.SetBool("Jump", false);
+        cp_AMC.SetBool("Special", false);
+        SCR_SoundManager.instance.StopLoopSE();
+        SCR_SoundManager.instance.PlaySE(SE_Type.Player_KnockBack);
+        SCR_EffectManager.instance.EFF_KnockBack(transform.position + new Vector3(0.0f, transform.localScale.y, 0.0f), transform.rotation);
+        stateNow = STATE.AIR;
+    }
     // Start is called before the first frame update
     void Start()
     {
         cp_Rigidbody = GetComponent<Rigidbody>();
+        cp_AMC = transform.GetChild(0).gameObject.GetComponent<Animator>();
+        m_GimmickAct = transform.GetChild(1).gameObject;
+        m_GimmickAct.SetActive(false);
 
         stateNow = STATE.GROUND;
 
@@ -106,9 +161,10 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (m_SCR_Goal.m_IsClearflg) {
+        if (m_SCR_Goal.m_IsClearflg)
+        {
             transform.LookAt(resultCamera);
-            return; 
+            return;
         }
         else
         {
@@ -135,13 +191,15 @@ public class PlayerController : MonoBehaviour
                     JumpProc();
                     break;
 
+                case STATE.LAPSE:
+                    LapseProc();
+                    break;
+
                 default:
                     break;
             }
 
-            ActionProc();
-            CutProc();
-            PasteProc();
+            KickProc();
 
             // beforeFrameNum数のフレーム前の座標を取得
             if (++frameCount > beforeFrameNum)
@@ -155,21 +213,26 @@ public class PlayerController : MonoBehaviour
     void MoveProc()
     {
         bool jump = false;
-        if(Gamepad.current == null)
+        if (Gamepad.current == null)
         {
-            if(Input.GetKeyDown(KeyCode.Space))     jump = true;
+            if (Input.GetKeyDown(KeyCode.Space)) jump = true;
         }
         else
         {
-            if(Input.GetKeyDown(KeyCode.Space) || Gamepad.current.buttonSouth.isPressed)
+            if (Input.GetKeyDown(KeyCode.Space) || Gamepad.current.buttonSouth.IsPressed())
                 jump = true;
         }
         // ジャンプ
         if (jump)
         {
             cp_Rigidbody.velocity = Vector3.zero;
-            cp_Rigidbody.AddForce(Vector3.up * m_JumpPower);
+            m_JumpVelocity = m_JumpPower;
             stateNow = STATE.AIR;
+
+            cp_AMC.SetBool("Jump", true);
+            SCR_SoundManager.instance.StopLoopSE();
+            SCR_SoundManager.instance.PlaySE(SE_Type.Player_Jump);
+            SCR_EffectManager.instance.EFF_DirSmoke(transform.position, transform.rotation);
             return;     // ジャンプしたらステートマシン変更のため処理終了
         }
 
@@ -182,83 +245,100 @@ public class PlayerController : MonoBehaviour
         }
 
         PlayerMove(m_Speed, speedKeyborad);
+
     }
 
     void JumpProc()
     {
-        // レイキャストにより地面に当たったか判断
-        if (cp_Rigidbody.velocity.y == 0.0f)
+        //RayCast着地アニメーション処理
+        Ray ray = new Ray(transform.position, Vector3.down);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, rayUnderLength) && cp_Rigidbody.velocity.y < 0)
         {
-            cp_Rigidbody.velocity = Vector3.zero;
-            stateNow = STATE.GROUND;
-            return;
+            if (hit.transform.gameObject.CompareTag("Ground"))
+            {
+                cp_AMC.SetBool("Jump", false);
+                SCR_EffectManager.instance.EFF_UniformSmoke(transform.position, transform.rotation);
+            }
         }
+
+        if (m_isKnockBack) cp_Rigidbody.velocity += new Vector3(0.0f, Physics.gravity.y * Time.deltaTime, 0.0f);
+        else { m_JumpVelocity += Physics.gravity.y * Time.deltaTime * m_FallMultiplier; }
 
         PlayerMove(m_Speed * speedJump, speedKeyborad * speedJump);
     }
 
-    void ActionProc()
+    private void KickProc()
     {
-        if(Gamepad.current != null)
+        if (m_isKnockBack) return;
+
+        if (m_CanKick)
         {
-            if (Gamepad.current.buttonEast.isPressed)
+            Debug.Log("CanKick");
+
+            bool input = false;
+            // ギミック作動
+            // キーが押されていなければ処理しない
+            if (Gamepad.current != null)
             {
-                Debug.Log("アクション中");
+                if (Input.GetKeyDown(KeyCode.E) || Gamepad.current.leftTrigger.isPressed) input = true;
+            }
+            else
+            {
+                if (Input.GetKeyDown(KeyCode.E)) input = true;
+            }
+
+            if (input)
+            {
+                Debug.Log("Kick");
+                KickAction();
+                m_GimmickAct.SetActive(true);
+                m_CanKick = false;
             }
         }
-
-
-        if (Input.GetKey(KeyCode.J))
+        else if (m_GimmickAct.activeSelf && !m_CanKick)
         {
-            Debug.Log("アクション中");
-        }
-
-    }
-
-    void CutProc()
-    {
-        if (Gamepad.current != null)
-        {
-            if (Gamepad.current.buttonNorth.isPressed)
+            m_KickTimer += Time.deltaTime;
+            if (m_KickTime < m_KickTimer)
             {
-                Debug.Log("カット中");
+                m_KickTimer = 0.0f;
+                m_GimmickAct.SetActive(false);
             }
         }
-
-        if (Input.GetKey(KeyCode.K))
+        else
         {
-            Debug.Log("カット中");
-        }
-    }
-
-    void PasteProc()
-    {
-        if (Gamepad.current != null)
-        {
-            if (Gamepad.current.buttonWest.isPressed)
+            m_KickTimer += Time.deltaTime;
+            if (m_LapseKickTime < m_KickTimer)
             {
-                Debug.Log("ペースト中");
+                m_KickTimer = 0.0f;
+                cp_AMC.SetBool("Special", false);
+                m_CanKick = true;
             }
-        }
+        }        
+    }
 
-        if (Input.GetKey(KeyCode.P))
+    private void LapseProc()
+    {
+        m_LapseTimer += Time.deltaTime;
+
+        if (m_LapseTimer > m_LapseTime)
         {
-            Debug.Log("ペースト中");
+            m_LapseTimer = 0.0f;
+            m_isKnockBack = false;
+            stateNow = STATE.GROUND;
+            cp_AMC.SetBool("KnockBack", false);
+            Debug.Log("End Lapse");
+            return;
         }
     }
+   
 
     private void OnCollisionEnter(Collision collision)
     {
         // 敵に触れたらノックバック
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            Debug.Log("当たった");
-            cp_Rigidbody.velocity = Vector3.zero;
-
-            // 自分の位置と接触してきたオブジェクトの位置とを計算して、距離と方向を出して正規化(速度ベクトルを算出)
-            Vector3 distination = (transform.position - collision.transform.position).normalized;
-
-            cp_Rigidbody.AddForce(distination * knockBackPower, ForceMode.VelocityChange);
+            KnockBack(collision.gameObject.transform);
         }
 
         // 落下したら元居た場所に戻る
@@ -266,6 +346,17 @@ public class PlayerController : MonoBehaviour
         {
             transform.position = leaveGroundPosition;
             isFellDown = true;
+        }
+
+
+        if (collision.gameObject.CompareTag("Ground") && m_JumpVelocity < 0.0f)
+        {
+            m_JumpVelocity = 0.0f;
+            cp_Rigidbody.velocity = Vector3.zero;
+            SCR_SoundManager.instance.PlaySE(SE_Type.Player_Landing);
+
+            if (m_isKnockBack) { stateNow = STATE.LAPSE; }
+            else { stateNow = STATE.GROUND; }
         }
     }
 
@@ -283,7 +374,7 @@ public class PlayerController : MonoBehaviour
     private void PlayerMove(float controllerSpeed, float keyboradSpeed)
     {
         if (isCreateNewMeshObj) return;
-
+        if (m_isKnockBack) return;
         // 初期化
         m_Velocity = Vector3.zero;
 
@@ -301,11 +392,12 @@ public class PlayerController : MonoBehaviour
             }
 
             // 前を向かせる
-            if(m_Velocity != Vector3.zero)
+            if (m_Velocity != Vector3.zero)
             {
                 Quaternion Rotation = Quaternion.LookRotation(m_Velocity.normalized, Vector3.up);
                 if (m_Velocity.magnitude != 0)
                 {
+                    Debug.Log("rotate");
                     this.transform.rotation = Rotation;
                 }
             }
@@ -342,9 +434,21 @@ public class PlayerController : MonoBehaviour
             transform.eulerAngles = new Vector3(0f, -90.0f, 0f);
         }
 
-        var vel = cp_Rigidbody.velocity;
-        vel.x = m_Velocity.x;
-        vel.z = m_Velocity.z;
-        cp_Rigidbody.velocity = vel;
+        if (stateNow == STATE.GROUND && m_Velocity != Vector3.zero) {
+            if (!cp_AMC.GetBool("Walk"))
+            {
+                cp_AMC.SetBool("Walk", true);
+                SCR_SoundManager.instance.PlaySE(SE_Type.Player_Walk, true, 0.2f);
+            }            
+        }
+        else {
+            cp_AMC.SetBool("Walk", false);
+            SCR_SoundManager.instance.StopLoopSE();
+        }
+
+        m_Velocity.y = m_JumpVelocity;
+        m_Velocity.y += Physics.gravity.y * Time.deltaTime * m_FallMultiplier;
+
+        cp_Rigidbody.velocity = m_Velocity;
     }
 }
